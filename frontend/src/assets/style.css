@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-secondary: #161616;
+  --color-custard: #ffffcb;
+}
+
+@layer components {
+  .form-input {
+    direction: ltr;
+    @apply bg-[#202020] text-white text-base rounded-3xl px-4 py-3.5 outline-none focus:ring-1 focus:ring-custard/40 transition-all placeholder:text-gray-600;
+  }
+
+  .form-input::placeholder {
+    direction: rtl;
+    text-align: right;
+  }
+}
