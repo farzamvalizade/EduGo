@@ -3,6 +3,7 @@
 @theme {
   --color-secondary: #161616;
   --color-custard: #ffffcb;
+  --color-secondary-light: #2b2b2b;
 }
 
 @layer components {
