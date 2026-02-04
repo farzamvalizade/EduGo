@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-secondary: #161616;
+  --color-secondary: #0f0f0f;
   --color-custard: #ffffcb;
   --color-secondary-light: #2b2b2b;
+  --color-muted-foreground: #a8a8a8;
 }
 
 @layer components {
@@ -15,5 +16,26 @@
   .form-input::placeholder {
     direction: rtl;
     text-align: right;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(8deg);
+  }
+  30% {
+    transform: rotate(-6deg);
+  }
+  45% {
+    transform: rotate(6deg);
+  }
+  60% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }

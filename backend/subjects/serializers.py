@@ -7,6 +7,8 @@ from progress.models import StudentProgress
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    stages_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Subject
         fields = "__all__"

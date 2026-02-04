@@ -6,6 +6,7 @@ from .views import (
     LessonStageListView,
     LessonStageDetailView,
     LessonStageCreateView,
+    IncompleteSubjectsView,
 )
 
 urlpatterns = [
@@ -23,5 +24,8 @@ urlpatterns = [
     ),
     path(
         "subjects/stages/create/", LessonStageCreateView.as_view(), name="stages-create"
+    ),
+    path(
+        "incomplete-stages/", IncompleteSubjectsView.as_view(), name="incomplete-stages"
     ),
 ]
