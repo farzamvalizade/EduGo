@@ -12,7 +12,7 @@ const Navbar = () => {
     pathname === path || pathname.startsWith(path + "/");
 
   const itemClass = (active: boolean) =>
-    active ? "text-custard" : "text-muted-foreground";
+    active ? "text-custard font-bold" : "text-muted-foreground";
 
   return (
     <nav className="bg-secondary fixed bottom-0 left-0 right-0 bg-card border-t border-[#222222] z-50">
@@ -22,7 +22,10 @@ const Navbar = () => {
             to="/home"
             className={`flex flex-col items-center gap-1 ${itemClass(isActive("/home"))}`}
           >
-            <HomeIcon />
+            <HomeIcon
+              strokeWidth={isActive("/home") ? 2.5 : 2}
+              strokeColor={isActive("/home") ? "#ffffcb" : "currentColor"}
+            />
             <span className="text-xs">خانه</span>
           </Link>
 
@@ -30,7 +33,10 @@ const Navbar = () => {
             to="/subjects"
             className={`flex flex-col items-center gap-1 ${itemClass(isActive("/subjects"))}`}
           >
-            <SubjectsIcon />
+            <SubjectsIcon
+              strokeWidth={isActive("/subjects") ? 2.5 : 2}
+              strokeColor={isActive("/subjects") ? "#ffffcb" : "currentColor"}
+            />
             <span className="text-xs">دروس</span>
           </Link>
 
@@ -38,7 +44,10 @@ const Navbar = () => {
             to="/progress"
             className={`flex flex-col items-center gap-1 ${itemClass(isActive("/progress"))}`}
           >
-            <ProgressIcon />
+            <ProgressIcon
+              strokeWidth={isActive("/progress") ? 2.5 : 2}
+              strokeColor={isActive("/progress") ? "#ffffcb" : "currentColor"}
+            />
             <span className="text-xs">وضعیت</span>
           </Link>
 
@@ -46,7 +55,10 @@ const Navbar = () => {
             to="/profile"
             className={`flex flex-col items-center gap-1 ${itemClass(isActive("/profile"))}`}
           >
-            <ProfileIcon />
+            <ProfileIcon
+              strokeWidth={isActive("/profile") ? 2.5 : 2}
+              strokeColor={isActive("/profile") ? "#ffffcb" : "currentColor"}
+            />
             <span className="text-xs">پروفایل</span>
           </Link>
         </div>

@@ -1,4 +1,4 @@
-const ProgressIcon = () => {
+const ProgressIcon = ({ strokeWidth = 2 }: { strokeWidth?: number }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,10 +7,10 @@ const ProgressIcon = () => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-trending-up text-muted-foreground"
+      className="lucide lucide-trending-up"
     >
       <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
       <polyline points="16 7 22 7 22 13"></polyline>

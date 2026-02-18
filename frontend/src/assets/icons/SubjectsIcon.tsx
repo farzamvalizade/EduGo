@@ -1,4 +1,4 @@
-const SubjectsIcon = () => {
+const SubjectsIcon = ({ strokeWidth = 2 }: { strokeWidth?: number }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,10 +7,10 @@ const SubjectsIcon = () => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-book-open text-muted-foreground"
+      className="lucide lucide-book-open"
     >
       <path d="M12 7v14"></path>
       <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>

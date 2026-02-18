@@ -18,6 +18,14 @@ class StudentStatSerializer(serializers.ModelSerializer):
 
 
 class CertificateSerializer(serializers.ModelSerializer):
+    def get_subject_detail(self, obj):
+        return {
+            "title": obj.subject.title,
+            "description": obj.subject.description,
+        }
+
+    subject_detail = serializers.SerializerMethodField("get_subject_detail")
+
     class Meta:
         model = Certificate
         fields = "__all__"

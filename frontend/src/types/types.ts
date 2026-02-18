@@ -14,3 +14,13 @@ export interface IncompleteLesson {
   completedStage: number;
   totalStage: number;
 }
+
+export interface Certificate {
+  id: number;
+  subject: number;
+  issued_at: string;
+  subject_detail: {
+    title: string;
+    description: string;
+  };
+}

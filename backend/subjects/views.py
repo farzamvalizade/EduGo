@@ -109,3 +109,25 @@ class IncompleteSubjectsView(APIView):
                 )
 
         return Response(data)
+
+
+class UserCompletedStages(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        completed_count = (
+            StudentProgress.objects.filter(user=user, is_passed=True)
+            .values("stage")
+            .distinct()
+            .count()
+        )
+
+        total_stages_count = LessonStage.objects.filter(is_active=True).count()
+
+        return Response(
+            {
+                "completed_stages_count": completed_count,
+                "total_stages_count": total_stages_count,
+            }
+        )

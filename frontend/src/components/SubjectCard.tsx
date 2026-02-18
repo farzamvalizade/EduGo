@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { Link } from "react-router-dom";
-
-import ArrowLeftIcon from "@/assets/icons/ArrowLeftIcon";
 
 interface SubjectCardProps {
   subject: string;
@@ -12,6 +10,7 @@ interface SubjectCardProps {
   continueUrl: string;
   isHomePage?: boolean;
   isCompleted?: boolean;
+  isStarted?: boolean;
 }
 
 const SubjectCard = ({
@@ -22,6 +21,7 @@ const SubjectCard = ({
   continueUrl,
   isHomePage = false,
   isCompleted = false,
+  isStarted = false,
 }: SubjectCardProps) => {
   const progressValue = Math.min((completedStages / totalStages) * 100, 100);
 
@@ -47,17 +47,19 @@ const SubjectCard = ({
           <p className="text-sm text-muted-foreground mb-3">
             {completedStages} از {totalStages} مرحله
           </p>
-          <div className="relative h-2 bg-secondary rounded-full overflow-hidden mb-3">
-            <div
-              className="
+          {isStarted && (
+            <div className="relative h-2 bg-secondary rounded-full overflow-hidden mb-3">
+              <div
+                className="
                 h-full
                 bg-custard
                 rounded-full
                 transition-[width] duration-700 ease-out
               "
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
 
           {isHomePage && (
             <Link
@@ -102,7 +104,7 @@ const SubjectCard = ({
             active:scale-95
           "
         >
-          ادامه دهید
+          {isStarted ? "ادامه دهید" : "شروع کنید"}
         </Link>
       )}
       {isCompleted && (

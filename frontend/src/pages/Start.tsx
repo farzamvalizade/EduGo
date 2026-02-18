@@ -54,7 +54,7 @@ const Home = () => {
 
         <Link
           className="flex-1 bg-custard p-4 rounded-full font-bold text-center text-lg shadow-lg active:scale-95 transition-transform"
-          to="/start"
+          to="/login"
         >
           شروع کنید
         </Link>

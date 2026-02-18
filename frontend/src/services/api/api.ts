@@ -1,11 +1,8 @@
-import axios from "axios";
 import Cookies from "js-cookie";
 
 import type { Subject, IncompleteLesson } from "@/types/types";
 
-const api = axios.create({
-  baseURL: "http://localhost:8000/api",
-});
+import { api } from "@/services/auth/authService";
 
 export const SubjectList = async () => {
   const subjects: Subject[] = await api.get("/subjects");
@@ -28,4 +25,61 @@ export const IncompleteLessons = async () => {
     },
   );
   return incompleteLessons;
+};
+
+export const UserCompletedStages = async () => {
+  const token = Cookies.get("access_token");
+
+  if (!token) {
+    return [];
+  }
+
+  const userCompletedStages: {
+    completed_stages_count: number;
+    total_stages_count: number;
+  } = await api.get("/user-completed-stages", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return userCompletedStages;
+};
+
+export const CertificatesCount = async (): Promise<number> => {
+  const token = Cookies.get("access_token");
+  if (!token) return 0;
+
+  const res = await api.get("/certificates", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data.length;
+};
+
+export const CertificateList = async () => {
+  const token = Cookies.get("access_token");
+  if (!token) return [];
+
+  const res = await api.get("/certificates", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+};
+
+export const UserDetails = async () => {
+  const token = Cookies.get("access_token");
+  if (!token) return {};
+
+  const res = await api.get("/auth/user/", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
 };

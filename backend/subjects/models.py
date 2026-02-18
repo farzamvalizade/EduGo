@@ -6,7 +6,7 @@ from django.db import models
 class Subject(models.Model):
     title = models.CharField(max_length=255, verbose_name="عنوان")
     description = models.TextField(verbose_name="توضیحات")
-    image = models.ImageField(upload_to="subjects/", verbose_name="عکس")
+    image = models.FileField(upload_to="subjects/", verbose_name="عکس")
     is_active = models.BooleanField(default=True, verbose_name="فعال/غیرفعال")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="ساخته شده")
 

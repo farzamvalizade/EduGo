@@ -1,52 +1,238 @@
-import PageHeader from "@/components/PageHeader";
-import Navbar from "@/components/Navbar";
+import { useEffect, useState } from "react";
 
-import DefaultProfile from "@/assets/DefaultProfile.png";
+import Navbar from "@/components/Navbar";
+import AchievementCard from "../components/AchievementCard";
+
+import {
+  UserDetails,
+  UserCompletedStages,
+  CertificatesCount,
+  IncompleteLessons,
+  CertificateList,
+} from "@/services/api/api";
+
+import type { IncompleteLesson, Certificate } from "@/types/types";
 
 const Profile = () => {
+  const [userDetail, setUserDetail] = useState<{
+    pk: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+  }>({
+    pk: 0,
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+  });
+
+  const [userCompletedStages, setUserCompletedStages] = useState<number>(0);
+  const [certificatesCount, setCertificatesCount] = useState<number>(0);
+  const [incompleteLessons, setIncompleteLessons] = useState<
+    IncompleteLesson[]
+  >([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+
+  useEffect(() => {
+    const fetchUserDetail = async () => {
+      const fetchUserDetail = await UserDetails();
+      setUserDetail(fetchUserDetail);
+    };
+
+    const fetchUserCompletedStages = async () => {
+      const fetchUserCompletedStages = await UserCompletedStages();
+      setUserCompletedStages(
+        fetchUserCompletedStages.data.completed_stages_count,
+      );
+    };
+
+    const fetchCertificatesCount = async () => {
+      const fetchCertificatesCount = await CertificatesCount();
+      setCertificatesCount(fetchCertificatesCount);
+    };
+
+    const fetchIncompleteLessons = async () => {
+      const fetchIncompleteLessons = await IncompleteLessons();
+      setIncompleteLessons(fetchIncompleteLessons.data as IncompleteLesson[]);
+    };
+
+    const fetchCertificateList = async () => {
+      const fetchCertificateList = await CertificateList();
+      setCertificates(fetchCertificateList);
+    };
+
+    fetchUserDetail();
+    fetchUserCompletedStages();
+    fetchCertificatesCount();
+    fetchIncompleteLessons();
+    fetchCertificateList();
+  }, []);
+
   return (
     <div
       className="flex flex-col min-h-screen bg-secondary p-6 text-white"
       dir="rtl"
     >
-      <PageHeader heading="پروفایل" />
-
-      <div className="flex flex-col items-center justify-center mt-16">
-        <div className="relative">
-          <img
-            className="w-24 h-24 rounded-full object-cover border-2 border-custard/20"
-            src={DefaultProfile}
-            alt="Profile Picture"
-          />
-          <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.05)] pointer-events-none"></div>
+      <div className="flex flex-col items-center justify-center  text-black">
+        <div className="inline-flex items-center justify-center w-24 h-24 bg-linear-to-br from-custard/30 to-custard rounded-full mb-4 border-4 border-card">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-user text-custard-foreground"
+          >
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
         </div>
 
-        <h2 className="text-white mt-4 font-bold text-2xl">نام کاربر</h2>
+        <h1 className="text-2xl mb-1 text-white uppercase">
+          {userDetail.username}
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">{userDetail.email}</p>
+      </div>
 
-        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1 text-xs text-white">
-          <svg
-            className="visible w-3.5 h-3.5"
-            fill="white"
-            viewBox="0 0 320 512"
-          >
-            <path d="M320 144C320 223.5 255.5 288 176 288C96.47 288 32 223.5 32 144C32 64.47 96.47 0 176 0C255.5 0 320 64.47 320 144zM192 64C192 55.16 184.8 48 176 48C122.1 48 80 90.98 80 144C80 152.8 87.16 160 96 160C104.8 160 112 152.8 112 144C112 108.7 140.7 80 176 80C184.8 80 192 72.84 192 64zM144 480V317.1C154.4 319 165.1 319.1 176 319.1C186.9 319.1 197.6 319 208 317.1V480C208 497.7 193.7 512 176 512C158.3 512 144 497.7 144 480z"></path>
-          </svg>
-          <span>ایران</span>
+      <div className="grid grid-cols-3 gap-3 mb-8 mt-8">
+        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
+          <div className="flex justify-center mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-book-open text-custard"
+            >
+              <path d="M12 7v14"></path>
+              <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+            </svg>
+          </div>
+          <div className="text-2xl mb-1">{incompleteLessons.length}</div>
+          <div className="text-xs text-muted-foreground">درس‌ها</div>
+        </div>
+        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
+          <div className="flex justify-center mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-trophy text-custard"
+            >
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+              <path d="M4 22h16"></path>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+            </svg>
+          </div>
+          <div className="text-2xl mb-1">{userCompletedStages}</div>
+          <div className="text-xs text-muted-foreground">مراحل</div>
+        </div>
+        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
+          <div className="flex justify-center mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-award text-custard"
+            >
+              <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+              <circle cx="12" cy="8" r="6"></circle>
+            </svg>
+          </div>
+          <div className="text-2xl mb-1">{certificatesCount}</div>
+          <div className="text-xs text-muted-foreground">گواهی‌ها</div>
         </div>
       </div>
 
-      <div
-        dir="rtl"
-        className="flex justify-between items-center mt-4 bg-secondary-light rounded-2xl px-8 py-6"
-      >
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <span className="text-3xl font-bold text-white">150</span>
-            <span className="mt-2 text-sm font-medium text-gray-400 tracking-wide">
-              test
-            </span>
-          </div>
-        ))}
+      <div className="mt-6">
+        <h3 className="text-lg mb-3">دست‌آوردهای اخیر</h3>
+        <div className="flex flex-col gap-3">
+          {Array.isArray(incompleteLessons) &&
+            certificates.map((cert) => (
+              <div key={cert.id} className="space-y-3">
+                <div className="bg-linear-to-br from-[#1a1a1a] to-custard/5 rounded-2xl p-5 border border-custard/30">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center"
+                        style={{
+                          backgroundColor: "rgba(255, 255, 203, 0.125)",
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="lucide lucide-code"
+                        >
+                          <polyline points="16 18 22 12 16 6"></polyline>
+                          <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 className="mb-0.5">{cert.subject_detail.title}</h4>
+                      </div>
+                    </div>
+                    <div className="w-10 h-10 text-black bg-custard rounded-xl flex items-center justify-center shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-award text-custard-foreground"
+                      >
+                        <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+                        <circle cx="12" cy="8" r="6"></circle>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs text-muted-foreground">
+                      اخذ شده در{" "}
+                      {new Date(cert.issued_at).toLocaleDateString("fa-IR")}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
 
       <Navbar />

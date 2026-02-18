@@ -1,13 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import authService, { api } from "@/services/auth/authService";
+
 import LoginPicture from "@/assets/LoginPage.png";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await authService.login(username, password);
+      console.log("Logged in!");
+      navigate("/home");
+    } catch (err) {
+      console.error("Login failed");
+      setError("نام‌کاربری و رمزعبور را چک کنید سپس مجدد تلاش کنید!");
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const login = async () => {
+      await handleLogin();
+    };
+
+    login();
   };
 
   return (
@@ -21,6 +45,12 @@ const Login = () => {
         </Link>
         <h1 className="text-white text-2xl font-bold tracking-tight">ادوگو</h1>
       </div>
+
+      {error && (
+        <div className="mx-auto bg-red-300 border border-red-800 px-4 py-2 rounded-2xl mb-2">
+          <p className="text-red-800">{error}</p>
+        </div>
+      )}
 
       <form
         onSubmit={handleSubmit}
@@ -39,6 +69,7 @@ const Login = () => {
             placeholder="نام کاربری"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
 
@@ -55,6 +86,7 @@ const Login = () => {
             placeholder="رمز عبور"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
 

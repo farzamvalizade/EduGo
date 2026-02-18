@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 
 import type { Subject, IncompleteLesson } from "@/types/types";
 
-import { SubjectList, IncompleteLessons } from "@/services/api/api";
+import {
+  SubjectList,
+  IncompleteLessons,
+  UserCompletedStages,
+  CertificatesCount,
+  UserDetails,
+} from "@/services/api/api";
 
 import SubjectCard from "@/components/SubjectCard";
 import Navbar from "@/components/Navbar";
@@ -19,6 +25,23 @@ const Home = () => {
     IncompleteLesson[]
   >([]);
 
+  const [userCompletedStages, setUserCompletedStages] = useState<number>(0);
+  const [userOverall, setUserOverall] = useState<number>(0);
+  const [certificatesCount, setCertificatesCount] = useState<number>(0);
+  const [userDetail, setUserDetail] = useState<{
+    pk: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+  }>({
+    pk: 0,
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+  });
+
   useEffect(() => {
     const fetchSubjects = async () => {
       const fetchSubjects = await SubjectList();
@@ -29,15 +52,43 @@ const Home = () => {
       const fetchIncompleteLessons = await IncompleteLessons();
       setIncompleteLessons(fetchIncompleteLessons.data as IncompleteLesson[]);
     };
+
+    const fetchUserCompletedStages = async () => {
+      const fetchUserCompletedStages = await UserCompletedStages();
+      setUserCompletedStages(
+        fetchUserCompletedStages.data.completed_stages_count,
+      );
+
+      setUserOverall(
+        (fetchUserCompletedStages.data.completed_stages_count /
+          fetchUserCompletedStages.data.total_stages_count) *
+          100,
+      );
+    };
+
+    const fetchCertificatesCount = async () => {
+      const fetchCertificatesCount = await CertificatesCount();
+      setCertificatesCount(fetchCertificatesCount);
+    };
+
+    const fetchUserDetail = async () => {
+      const fetchUserDetail = await UserDetails();
+      setUserDetail(fetchUserDetail);
+    };
+
     fetchSubjects();
     fetchIncompleteLessons();
+    fetchUserCompletedStages();
+    fetchCertificatesCount();
+    fetchUserDetail();
   }, []);
+
   return (
     <div className="flex flex-col min-h-screen p-6 text-white">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl mb-3">
-          سلام فرزام
+          سلام {userDetail.first_name}
           <span className="animate-[wave_0.6s_ease-in-out_1] inline-block origin-bottom">
             👋
           </span>
@@ -72,15 +123,15 @@ const Home = () => {
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center ">
-            <div className="text-3xl mb-1">24</div>
+            <div className="text-3xl mb-1">{userCompletedStages}</div>
             <div className="text-xs text-muted-foreground">مراحل انجام شده</div>
           </div>
           <div className="text-center border-x border-[#393939]">
-            <div className="text-3xl mb-1">1</div>
+            <div className="text-3xl mb-1">{certificatesCount}</div>
             <div className="text-xs text-muted-foreground">تمام شده</div>
           </div>
           <div className="text-center ">
-            <div className="text-3xl mb-1">60%</div>
+            <div className="text-3xl mb-1">{userOverall}%</div>
             <div className="text-xs text-muted-foreground">بطورکلی</div>
           </div>
         </div>
@@ -97,6 +148,7 @@ const Home = () => {
                 totalStages={lesson.totalStage}
                 icon={<MathIcon />}
                 isHomePage={true}
+                isStarted={true}
                 continueUrl={`/subjects/${lesson.lesson_id}`}
               />
             ))}
@@ -114,7 +166,13 @@ const Home = () => {
                 className="bg-[#1a1a1a] rounded-2xl p-4 border border-custard/30 text-left  transition-all"
               >
                 <div className="bg-[#2b2735] w-10 h-10 rounded-xl flex items-center justify-center mb-3">
-                  <MathIcon />
+                  {subject.image && (
+                    <img
+                      src={subject.image}
+                      alt={subject.title}
+                      className="w-10 h-10 rounded-xl"
+                    />
+                  )}
                 </div>
                 <h4 className="text-right text-sm mb-1">{subject.title}</h4>
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -126,7 +184,7 @@ const Home = () => {
         </div>
       </div>
       {/* View All Subjects */}
-      <div className="mt-6 mb-8">
+      <div className="mt-6 mb-12">
         <Link
           to="/subjects"
           className="
