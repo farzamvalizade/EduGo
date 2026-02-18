@@ -1,0 +1,57 @@
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Python / Django
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+.env
+.venv/
+venv/
+env/
+
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Django
+
+# ======================
+# Node / React / Vite
+# ======================
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ======================
+# Editor / IDE
+# ======================
+.vscode/
+.idea/
+*.swp
+
+# ======================
+# Tests / Coverage
+# ======================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ======================
+# Misc
+# ======================
+*.bak
+*.tmp
