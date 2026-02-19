@@ -40,7 +40,7 @@ const SubjectCard = ({
     >
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center">
-          {icon}
+          <img src={icon} alt={subject} className="w-full h-full" />
         </div>
         <div className="flex-1">
           <h4 className="mb-1">{subject}</h4>
@@ -104,7 +104,7 @@ const SubjectCard = ({
             active:scale-95
           "
         >
-          {isStarted ? "ادامه دهید" : "شروع کنید"}
+          بیشتر ببینید
         </Link>
       )}
       {isCompleted && (

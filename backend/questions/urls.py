@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CheckAnswersView, QuestionCreateView
+from .views import CheckAnswersView, QuestionCreateView, StageQuestionListView
 
 urlpatterns = [
     path(
@@ -9,4 +9,9 @@ urlpatterns = [
         name="check-answers",
     ),
     path("questions/create/", QuestionCreateView.as_view(), name="questions-create"),
+    path(
+        "stages/<int:stage_id>/questions/",
+        StageQuestionListView.as_view(),
+        name="stage-questions",
+    ),
 ]

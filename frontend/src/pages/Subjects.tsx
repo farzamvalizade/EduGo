@@ -69,7 +69,7 @@ const Subjects = () => {
               subject={subject.title}
               completedStages={subject.completedStage}
               totalStages={subject.totalStage}
-              icon={<MathIcon />}
+              icon={subject.image}
               continueUrl={`/subjects/${subject.id}`}
               isStarted={true}
             />
@@ -84,7 +84,7 @@ const Subjects = () => {
               subject={subject.title}
               completedStages={subject.stages_count}
               totalStages={subject.stages_count}
-              icon={<MathIcon />}
+              icon={subject.image}
               continueUrl={`/subjects/${subject.id}`}
               isStarted={false}
               isCompleted={false}
@@ -92,6 +92,14 @@ const Subjects = () => {
             />
           ))}
       </div>
+
+      {subjects.length === 0 && startedSubjects.length === 0 && (
+        <div className="flex items-center justify-center">
+          <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
+            درسی وجود ندارد!
+          </div>
+        </div>
+      )}
 
       <Navbar />
     </div>

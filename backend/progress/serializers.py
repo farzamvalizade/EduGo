@@ -22,6 +22,7 @@ class CertificateSerializer(serializers.ModelSerializer):
         return {
             "title": obj.subject.title,
             "description": obj.subject.description,
+            "image": obj.subject.image,
         }
 
     subject_detail = serializers.SerializerMethodField("get_subject_detail")

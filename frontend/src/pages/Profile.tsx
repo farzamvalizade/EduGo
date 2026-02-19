@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "@/components/Navbar";
-import AchievementCard from "../components/AchievementCard";
+
+import authService from "../services/auth/authService";
 
 import {
   UserDetails,
@@ -14,6 +17,8 @@ import {
 import type { IncompleteLesson, Certificate } from "@/types/types";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   const [userDetail, setUserDetail] = useState<{
     pk: number;
     username: string;
@@ -70,6 +75,12 @@ const Profile = () => {
     fetchCertificateList();
   }, []);
 
+  const handleLogout = () => {
+    authService.logout();
+    navigate("/");
+    return;
+  };
+
   return (
     <div
       className="flex flex-col min-h-screen bg-secondary p-6 text-white"
@@ -119,7 +130,9 @@ const Profile = () => {
               <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
             </svg>
           </div>
-          <div className="text-2xl mb-1">{incompleteLessons.length}</div>
+          <div className="text-2xl mb-1">
+            {incompleteLessons.length ? incompleteLessons.length : 0}
+          </div>
           <div className="text-xs text-muted-foreground">درس‌ها</div>
         </div>
         <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
@@ -144,7 +157,9 @@ const Profile = () => {
               <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
             </svg>
           </div>
-          <div className="text-2xl mb-1">{userCompletedStages}</div>
+          <div className="text-2xl mb-1">
+            {userCompletedStages ? userCompletedStages : 0}
+          </div>
           <div className="text-xs text-muted-foreground">مراحل</div>
         </div>
         <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
@@ -165,7 +180,9 @@ const Profile = () => {
               <circle cx="12" cy="8" r="6"></circle>
             </svg>
           </div>
-          <div className="text-2xl mb-1">{certificatesCount}</div>
+          <div className="text-2xl mb-1">
+            {certificatesCount ? certificatesCount : 0}
+          </div>
           <div className="text-xs text-muted-foreground">گواهی‌ها</div>
         </div>
       </div>
@@ -185,21 +202,14 @@ const Profile = () => {
                           backgroundColor: "rgba(255, 255, 203, 0.125)",
                         }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="lucide lucide-code"
-                        >
-                          <polyline points="16 18 22 12 16 6"></polyline>
-                          <polyline points="8 6 2 12 8 18"></polyline>
-                        </svg>
+                        {cert.subject_detail.image && (
+                          <div
+                            className=" fill-current"
+                            dangerouslySetInnerHTML={{
+                              __html: cert.subject_detail.image,
+                            }}
+                          />
+                        )}
                       </div>
                       <div>
                         <h4 className="mb-0.5">{cert.subject_detail.title}</h4>
@@ -233,6 +243,38 @@ const Profile = () => {
               </div>
             ))}
         </div>
+        {certificates.length === 0 && (
+          <div className="flex items-center justify-center">
+            <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
+              هیچ گواهی‌‌ای وجود ندارد!
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-3 mt-4">
+        <button
+          onClick={handleLogout}
+          className="px-6 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary-light text-secondary-foreground hover:bg-secondary/80 w-full flex items-center justify-center gap-3 hover:cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-log-out"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" x2="9" y1="12" y2="12"></line>
+          </svg>
+          <span>خروج</span>
+        </button>
       </div>
 
       <Navbar />

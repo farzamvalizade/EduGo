@@ -40,7 +40,7 @@ class CompleteSubjectView(APIView):
     def post(self, request, subject_id):
         subject = get_object_or_404(Subject, id=subject_id, is_active=True)
 
-        total_stages_count = subject.lesson_stages.count()
+        total_stages_count = subject.stages.count()
 
         passed_stages_count = StudentProgress.objects.filter(
             user=request.user, stage__subject=subject, is_passed=True

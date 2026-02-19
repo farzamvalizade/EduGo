@@ -49,12 +49,15 @@ api.interceptors.response.use(
 );
 
 const authService = {
+  isLoggedIn: () => {
+    return !!Cookies.get("access_token");
+  },
+
   login: async (username: string, password: string) => {
     const response = await api.post("/auth/login/", { username, password });
     if (response.data.access) {
       Cookies.set("access_token", response.data.access);
       Cookies.set("refresh_token", response.data.refresh);
-      console.log(response.data.refresh);
     }
     return response.data;
   },
@@ -70,5 +73,5 @@ const authService = {
   },
 };
 
-export { api }; // Use this 'api' instance for all your other data fetching
+export { api };
 export default authService;

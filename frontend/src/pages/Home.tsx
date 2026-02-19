@@ -123,15 +123,21 @@ const Home = () => {
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center ">
-            <div className="text-3xl mb-1">{userCompletedStages}</div>
+            <div className="text-3xl mb-1">
+              {userCompletedStages ? userCompletedStages : 0}
+            </div>
             <div className="text-xs text-muted-foreground">مراحل انجام شده</div>
           </div>
           <div className="text-center border-x border-[#393939]">
-            <div className="text-3xl mb-1">{certificatesCount}</div>
+            <div className="text-3xl mb-1">
+              {certificatesCount ? certificatesCount : 0}
+            </div>
             <div className="text-xs text-muted-foreground">تمام شده</div>
           </div>
           <div className="text-center ">
-            <div className="text-3xl mb-1">{userOverall}%</div>
+            <div className="text-3xl mb-1">
+              {userOverall ? userOverall : 0}%
+            </div>
             <div className="text-xs text-muted-foreground">بطورکلی</div>
           </div>
         </div>
@@ -152,6 +158,14 @@ const Home = () => {
                 continueUrl={`/subjects/${lesson.lesson_id}`}
               />
             ))}
+
+          {incompleteLessons.length === 0 && (
+            <div className="flex items-center justify-center">
+              <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
+                هیچ درسی انجام نشده ای نیست
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* Subjects */}
@@ -182,6 +196,13 @@ const Home = () => {
               </Link>
             ))}
         </div>
+        {subjects.length === 0 && (
+          <div className="flex items-center justify-center">
+            <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
+              درسی وجود ندارد!
+            </div>
+          </div>
+        )}
       </div>
       {/* View All Subjects */}
       <div className="mt-6 mb-12">

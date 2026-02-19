@@ -3,13 +3,17 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework import status, permissions
 
 from subjects.models import LessonStage
 from progress.models import StudentProgress, StudentStat
 from .models import Question, Choice
-from .serializers import QuestionCreateSerializer, ChoiceCreateSerializer
+from .serializers import (
+    QuestionCreateSerializer,
+    ChoiceCreateSerializer,
+    QuestionSerializer,
+)
 
 # Create your views here.
 
@@ -104,3 +108,20 @@ class ChoiceCreateView(CreateAPIView):
     queryset = Choice.objects.all()
     serializer_class = ChoiceCreateSerializer
     permission_classes = [permissions.IsAdminUser]
+
+
+class StageQuestionListView(ListAPIView):
+    serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        stage_id = self.kwargs.get("stage_id")
+
+        stage = get_object_or_404(LessonStage, id=stage_id, is_active=True)
+
+        return Question.objects.filter(stage=stage).prefetch_related("choice_set")
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context

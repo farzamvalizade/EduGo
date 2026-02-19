@@ -20,12 +20,17 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
         fields = ("title", "description", "image", "is_active")
 
 
+# serializers.py
+
+
 class LessonStageSerializer(serializers.ModelSerializer):
     is_locked = serializers.SerializerMethodField()
+    is_passed = serializers.SerializerMethodField()
 
     class Meta:
         model = LessonStage
         fields = (
+            "id",
             "subject",
             "title",
             "order",
@@ -35,7 +40,14 @@ class LessonStageSerializer(serializers.ModelSerializer):
             "is_active",
             "created_at",
             "is_locked",
+            "is_passed",
         )
+
+    def get_is_passed(self, obj):
+        user = self.context["request"].user
+        return StudentProgress.objects.filter(
+            user=user, stage=obj, is_passed=True
+        ).exists()
 
     def get_is_locked(self, obj):
         user = self.context["request"].user
@@ -46,6 +58,9 @@ class LessonStageSerializer(serializers.ModelSerializer):
         prev_stage = LessonStage.objects.filter(
             subject=obj.subject, order=obj.order - 1
         ).first()
+
+        if not prev_stage:
+            return True
 
         return not StudentProgress.objects.filter(
             student=user, stage=prev_stage, is_passed=True

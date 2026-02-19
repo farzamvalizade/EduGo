@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import authService, { api } from "@/services/auth/authService";
@@ -16,10 +16,8 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       await authService.login(username, password);
-      console.log("Logged in!");
       navigate("/home");
     } catch (err) {
-      console.error("Login failed");
       setError("نام‌کاربری و رمزعبور را چک کنید سپس مجدد تلاش کنید!");
     }
   };
@@ -33,6 +31,13 @@ const Login = () => {
 
     login();
   };
+
+  useEffect(() => {
+    if (authService.isLoggedIn()) {
+      navigate("/home");
+      return;
+    }
+  }, []);
 
   return (
     <div

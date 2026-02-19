@@ -26,7 +26,6 @@ const Progress = () => {
     const fetchIncompleteLessons = async () => {
       const fetchIncompleteLessons = await IncompleteLessons();
       setIncompleteLessons(fetchIncompleteLessons.data as IncompleteLesson[]);
-      console.log(fetchIncompleteLessons.data);
     };
 
     const fetchUserCompletedStages = async () => {
@@ -90,22 +89,26 @@ const Progress = () => {
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-muted-foreground">میزان تکمیل کل</span>
-            <span className="text-3xl">{userOverall}%</span>
+            <span className="text-3xl">{userOverall ? userOverall : 0}%</span>
           </div>
           <div className="relative h-3 bg-secondary rounded-full overflow-hidden">
             <div
               className="absolute inset-y-0 left-0 bg-custard rounded-full"
-              style={{ width: `${userOverall}%` }}
+              style={{ width: `${userOverall ? userOverall : 0}%` }}
             ></div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-background/50 rounded-xl p-4 text-center">
-            <div className="text-2xl mb-1">{userCompletedStages}</div>
+            <div className="text-2xl mb-1">
+              {userCompletedStages ? userCompletedStages : 0}
+            </div>
             <div className="text-xs text-muted-foreground">مراحل تکمیل‌شده</div>
           </div>
           <div className="bg-background/50 rounded-xl p-4 text-center">
-            <div className="text-2xl mb-1">{certificatesCount}</div>
+            <div className="text-2xl mb-1">
+              {certificatesCount ? certificatesCount : 0}
+            </div>
             <div className="text-xs text-muted-foreground">
               درس‌های تکمیل‌شده
             </div>
@@ -134,7 +137,9 @@ const Progress = () => {
             </svg>
             <span className="text-sm text-muted-foreground">درحال انجام</span>
           </div>
-          <div className="text-2xl">{incompleteLessons.length}</div>
+          <div className="text-2xl">
+            {incompleteLessons.length ? incompleteLessons.length : 0}
+          </div>
         </div>
         <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary">
           <div
@@ -158,14 +163,16 @@ const Progress = () => {
             </svg>
             <span className="text-sm text-muted-foreground">گواهی‌ها</span>
           </div>
-          <div className="text-2xl">{certificatesCount}</div>
+          <div className="text-2xl">
+            {certificatesCount ? certificatesCount : 0}
+          </div>
         </div>
       </div>
       {/* Recent Achievements */}
       <div className="mt-6">
         <h3 className="text-lg mb-3">دست‌آوردهای اخیر</h3>
         <div className="flex flex-col gap-3">
-          {Array.isArray(incompleteLessons) &&
+          {Array.isArray(certificates) &&
             certificates.map((cert) => (
               <AchievementCard
                 key={cert.id}
@@ -173,6 +180,14 @@ const Progress = () => {
                 issued_at={cert.issued_at}
               />
             ))}
+
+          {certificates.length === 0 && (
+            <div className="flex items-center justify-center">
+              <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
+                هیچ گواهی‌ای وجود ندارد!
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Navbar />
