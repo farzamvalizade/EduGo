@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 
 import authService from "../services/auth/authService";
 
+import { HashLoader } from "react-spinners";
+
 import {
   UserDetails,
   UserCompletedStages,
@@ -18,6 +20,8 @@ import type { IncompleteLesson, Certificate } from "@/types/types";
 
 const Profile = () => {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   const [userDetail, setUserDetail] = useState<{
     pk: number;
@@ -68,11 +72,24 @@ const Profile = () => {
       setCertificates(fetchCertificateList);
     };
 
-    fetchUserDetail();
-    fetchUserCompletedStages();
-    fetchCertificatesCount();
-    fetchIncompleteLessons();
-    fetchCertificateList();
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          fetchUserDetail(),
+          fetchUserCompletedStages(),
+          fetchCertificatesCount(),
+          fetchIncompleteLessons(),
+          fetchCertificateList(),
+        ]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   const handleLogout = () => {
@@ -80,6 +97,23 @@ const Profile = () => {
     navigate("/");
     return;
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div

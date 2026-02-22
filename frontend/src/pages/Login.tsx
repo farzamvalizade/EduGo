@@ -5,7 +5,11 @@ import authService, { api } from "@/services/auth/authService";
 
 import LoginPicture from "@/assets/LoginPage.png";
 
+import { HashLoader } from "react-spinners";
+
 const Login = () => {
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -33,11 +37,33 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (authService.isLoggedIn()) {
-      navigate("/home");
-      return;
-    }
+    const checkAuth = async () => {
+      if (authService.isLoggedIn()) {
+        navigate("/home");
+      } else {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuth();
   }, []);
+
+  if (isCheckingAuth) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div

@@ -11,9 +11,13 @@ import type { Subject, IncompleteLesson, LessonStage } from "@/types/types";
 
 import StageCard from "../components/StageCard";
 
+import { HashLoader } from "react-spinners";
+
 const SubjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const subjectId = Number(id);
+
+  const [loading, setLoading] = useState(true);
 
   const [subjects, setSubjects] = useState<Subject[]>([
     {
@@ -88,9 +92,22 @@ const SubjectDetail = () => {
       console.log(data);
     };
 
-    fetchSubject();
-    fetchIncompleteLessons();
-    fetchSubjectStages();
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          fetchSubject(),
+          fetchIncompleteLessons(),
+          fetchSubjectStages(),
+        ]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, [subjectId]);
 
   const completedStages = subjectStages.filter(
@@ -123,6 +140,23 @@ const SubjectDetail = () => {
       console.error("Failed to mark subject as complete", error);
     }
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div

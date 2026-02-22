@@ -6,9 +6,11 @@ import SubjectCard from "@/components/SubjectCard";
 import { IncompleteLessons, SubjectList } from "@/services/api/api";
 import type { IncompleteLesson, Subject } from "@/types/types";
 
-import MathIcon from "../assets/icons/MathIcon";
+import { HashLoader } from "react-spinners";
 
 const Subjects = () => {
+  const [loading, setLoading] = useState(true);
+
   const [startedSubjects, setStartedSubjects] = useState<IncompleteLesson[]>([
     { lesson_id: 0, title: "", completedStage: 0, totalStage: 0 },
   ]);
@@ -36,8 +38,18 @@ const Subjects = () => {
       setSubjects(fetchSubjects.data as Subject[]);
     };
 
-    fetchIncompleteLessons();
-    fetchSubjects();
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([fetchIncompleteLessons(), fetchSubjects()]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -49,6 +61,23 @@ const Subjects = () => {
       prev.filter((subject) => !startedIds.has(subject.id)),
     );
   }, [startedSubjects, subjects]);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen p-6 text-white">

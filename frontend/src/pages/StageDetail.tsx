@@ -4,9 +4,13 @@ import { StageQuestionList, checkStageAnswers } from "@/services/api/api";
 import QuizResult from "./StageResults.tsx";
 import type { Question, ApiResponse } from "@/types/types";
 
+import { HashLoader } from "react-spinners";
+
 const StageDetail = () => {
   const { stageId, id } = useParams();
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,9 +21,23 @@ const StageDetail = () => {
   const [results, setResults] = useState<ApiResponse | null>(null);
 
   useEffect(() => {
-    if (stageId) {
-      StageQuestionList(Number(stageId)).then(setQuestions);
-    }
+    const fetchQuestions = async () => {
+      if (stageId) {
+        StageQuestionList(Number(stageId)).then(setQuestions);
+      }
+    };
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([fetchQuestions()]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, [stageId]);
 
   const currentQuestion = questions[currentIndex];
@@ -45,6 +63,23 @@ const StageDetail = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   if (!currentQuestion)
     return (

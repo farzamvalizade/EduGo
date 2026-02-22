@@ -12,7 +12,11 @@ import Navbar from "@/components/Navbar";
 
 import AchievementCard from "@/components/AchievementCard";
 
+import { HashLoader } from "react-spinners";
+
 const Progress = () => {
+  const [loading, setLoading] = useState(true);
+
   const [incompleteLessons, setIncompleteLessons] = useState<
     IncompleteLesson[]
   >([]);
@@ -51,11 +55,41 @@ const Progress = () => {
       setCertificates(fetchCertificateList);
     };
 
-    fetchIncompleteLessons();
-    fetchUserCompletedStages();
-    fetchCertificatesCount();
-    fetchCertificateList();
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          fetchIncompleteLessons(),
+          fetchUserCompletedStages(),
+          fetchCertificatesCount(),
+          fetchCertificateList(),
+        ]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen p-6 text-white">

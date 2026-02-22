@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, CSSProperties } from "react";
 
 import { Link } from "react-router-dom";
 
 import type { Subject, IncompleteLesson } from "@/types/types";
+
+import { HashLoader } from "react-spinners";
 
 import {
   SubjectList,
@@ -20,6 +22,8 @@ import MathIcon from "@/assets/icons/MathIcon";
 import BookIcon from "@/assets/icons/BookIcon";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
+
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [incompleteLessons, setIncompleteLessons] = useState<
     IncompleteLesson[]
@@ -76,12 +80,42 @@ const Home = () => {
       setUserDetail(fetchUserDetail);
     };
 
-    fetchSubjects();
-    fetchIncompleteLessons();
-    fetchUserCompletedStages();
-    fetchCertificatesCount();
-    fetchUserDetail();
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          fetchSubjects(),
+          fetchIncompleteLessons(),
+          fetchUserCompletedStages(),
+          fetchCertificatesCount(),
+          fetchUserDetail(),
+        ]);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#1a1a1a",
+        }}
+      >
+        <HashLoader size={60} color={"#ffffcb"} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen p-6 text-white">
