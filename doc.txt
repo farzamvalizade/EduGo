@@ -1,0 +1,23 @@
+برای اجرای پروژه بک اند پروژه طبق دستورات زیر را در روت بک اند اجرا کنید:
+
+cd backend
+python -m pip install -r req.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
+و برای اجرای فرانت اند و دیدن آن در حالت موبایل مرور گر :
+
+cd frontend
+
+npm install
+npm run dev
+
+واضح است که node.js و npm برای اجرای پروژه نیاز دارید.
+و همینطور python و django برای اجرای بک اند نیاز دارید.
+
+برای اجرای برنامه app.apk را روی موبایل نصب کنید.
+بک اند این پروژه روی هاستی آپلود شده و از آن استفاده میشود.
+
+
+برای اینکه نیاز به نصب Postgresql یا MySQL نباشد از SQLite استفاده میشود در غیر اینصورت در هاست از Postgresql استفاده شده.
