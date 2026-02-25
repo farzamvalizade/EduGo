@@ -260,14 +260,16 @@ const SubjectDetail = () => {
       <div className="mt-4">
         <h2 className="text-2xl">مراحل یادگیری</h2>
 
-        <div className="space-y-3 mt-4">
+        <div className="flex flex-col space-y-3 mt-4">
           {Array.isArray(subjectStages) &&
-            subjectStages.map((stage) => (
+            subjectStages.map((stage, index) => (
               <StageCard
+                className="mt-4"
+                key={stage.id}
                 id={stage.id}
                 subject={stage.subject}
                 title={stage.title}
-                order={stage.order}
+                order={index + 1}
                 content={stage.content}
                 pass_score={stage.pass_score}
                 xp_reward={stage.xp_reward}

@@ -63,7 +63,7 @@ class LessonStageSerializer(serializers.ModelSerializer):
             return True
 
         return not StudentProgress.objects.filter(
-            student=user, stage=prev_stage, is_passed=True
+            user=user, stage=prev_stage, is_passed=True
         ).exists()
 
 

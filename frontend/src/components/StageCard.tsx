@@ -16,7 +16,7 @@ const StageCard = ({
   is_passed,
 }: LessonStage) => {
   return (
-    <Link to={`/subjects/${id}/stages/${id}`}>
+    <Link to={is_locked ? "" : `/subjects/${id}/stages/${id}`}>
       <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-[#2a2a2a] hover:border-custard/50 cursor-pointer transition-all">
         <div className="flex items-center gap-4">
           <div className="shrink-0">
@@ -86,7 +86,7 @@ const StageCard = ({
                 مرحله {order}
               </span>
               <span
-                className={`text-xs bg-[#22c55e]/20 text-[#22c55e] px-2 py-0.5 rounded-full ${is_passed ? "" : is_locked ? "" : "hidden"}`}
+                className={`text-xs ${is_passed ? "bg-[#22c55e]/20 text-[#22c55e]" : is_locked ? "bg-red-600/20 text-red-600" : ""} px-2 py-0.5 rounded-full ${is_passed ? "" : is_locked ? "" : "hidden"}`}
               >
                 {is_passed ? "تکمیل شده" : is_locked ? "قفل شده" : ""}
               </span>
