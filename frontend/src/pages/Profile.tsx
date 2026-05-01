@@ -289,7 +289,7 @@ const Profile = () => {
       <div className="space-y-3 mt-4">
         <button
           onClick={handleLogout}
-          className="px-6 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary-light text-secondary-foreground hover:bg-secondary/80 w-full flex items-center justify-center gap-3 hover:cursor-pointer"
+          className="px-6 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary-light text-secondary-foreground hover:bg-secondary-light/80 w-full flex items-center justify-center gap-3 hover:cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

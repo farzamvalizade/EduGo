@@ -90,7 +90,7 @@ const Subjects = () => {
       </div>
 
       {/* Incomplete Subjects */}
-      <div>
+      <div className="flex flex-col space-y-4 mb-2">
         {Array.isArray(startedSubjects) &&
           startedSubjects.map((subject) => (
             <SubjectCard
@@ -105,7 +105,7 @@ const Subjects = () => {
           ))}
       </div>
 
-      <div>
+      <div className="flex flex-col space-y-4 mb-2">
         {Array.isArray(subjects) &&
           subjects.map((subject) => (
             <SubjectCard

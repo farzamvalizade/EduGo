@@ -170,7 +170,7 @@ const Home = () => {
           </div>
           <div className="text-center ">
             <div className="text-3xl mb-1">
-              {userOverall ? userOverall : 0}%
+              {userOverall != null ? Math.floor(userOverall) : 0}%
             </div>
             <div className="text-xs text-muted-foreground">بطورکلی</div>
           </div>
@@ -196,7 +196,7 @@ const Home = () => {
           {incompleteLessons.length === 0 && (
             <div className="flex items-center justify-center">
               <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
-                هیچ درسی انجام نشده ای نیست
+                هیچ درس انجام نشده‌ای نیست
               </div>
             </div>
           )}

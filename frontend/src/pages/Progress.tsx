@@ -123,7 +123,9 @@ const Progress = () => {
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-muted-foreground">میزان تکمیل کل</span>
-            <span className="text-3xl">{userOverall ? userOverall : 0}%</span>
+            <span className="text-3xl">
+              {userOverall != null ? Math.floor(userOverall) : 0}%
+            </span>
           </div>
           <div className="relative h-3 bg-secondary rounded-full overflow-hidden">
             <div
