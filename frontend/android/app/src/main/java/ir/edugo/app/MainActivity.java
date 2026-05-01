@@ -1,4 +1,4 @@
-package com.edugo.app;
+package ir.edugo.app;
 
 import com.getcapacitor.BridgeActivity;
 

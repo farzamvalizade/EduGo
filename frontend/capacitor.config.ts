@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.edugo.app',
-  appName: 'EduGo',
+  appId: 'ir.edugo.app',
+  appName: 'edugo',
   webDir: 'dist'
 };
 

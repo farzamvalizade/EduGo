@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">EduGo</string>
-    <string name="title_activity_main">EduGo</string>
-    <string name="package_name">com.edugo.app</string>
-    <string name="custom_url_scheme">com.edugo.app</string>
+    <string name="app_name">edugo</string>
+    <string name="title_activity_main">edugo</string>
+    <string name="package_name">ir.edugo.app</string>
+    <string name="custom_url_scheme">ir.edugo.app</string>
 </resources>

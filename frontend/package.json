@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@capacitor/core": "^8.1.0",
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/filesystem": "^8.3.1",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/js-cookie": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",
@@ -23,9 +26,6 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@capacitor/android": "^8.1.0",
-    "@capacitor/cli": "^8.1.0",
-    "@capacitor/filesystem": "^8.1.2",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
