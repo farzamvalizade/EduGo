@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import LoginPicture from "@/assets/LoginPage.png";
+import LoginPicture from "../assets/LoginPage.png";
 
 import { Register } from "@/services/api/api";
 

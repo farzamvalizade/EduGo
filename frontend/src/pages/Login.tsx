@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import authService, { api } from "@/services/auth/authService";
 
-import LoginPicture from "@/assets/LoginPage.png";
+import LoginPicture from "../assets/LoginPage.png";
 
 import { HashLoader } from "react-spinners";
 

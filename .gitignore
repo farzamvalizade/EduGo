@@ -20,7 +20,6 @@ env/
 
 *.egg-info/
 .eggs/
-dist/
 build/
 
 # Django
