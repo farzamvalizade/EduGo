@@ -25,7 +25,7 @@ EduGo یک سامانه آموزشی مرحله‌به‌مرحله است که 
 | نام            | نقش                        |
 | -------------- | -------------------------- |
 | فرزام ولی‌زاده | توسعه فرانت‌اند و بک‌اند   |
-| محمد آهنگری    | طراحی تصاویر و تولید محتوا |
+| یونا نوری      | طراحی تصاویر و تولید محتوا |
 
 ---
 
@@ -53,6 +53,7 @@ EduGo یک سامانه آموزشی مرحله‌به‌مرحله است که 
 ## Hosting
 
 - PythonAnywhere
+- Cloudflare Pages
 
 ---
 
@@ -145,7 +146,7 @@ SQLite Database
 
 ## تست سازگاری
 
-- Android 8+
+- Android 12+
 - مرورگرهای مختلف Chrome, Firefox, ...
 
 ## تست عملکرد
@@ -225,3 +226,11 @@ cd frontend/
 npm install
 npm run dev
 ```
+
+---
+
+# Demo
+
+### backend: https://farzam1389.pythonanywhere.com/api/
+
+### frontend: https://edugo.farzamv.ir/
