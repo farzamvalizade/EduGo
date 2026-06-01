@@ -67,73 +67,115 @@ const Login = () => {
 
   return (
     <div
-      className="flex flex-col min-h-screen bg-secondary p-8 dir-rtl"
+      className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black"
       dir="rtl"
     >
-      <div className="flex flex-col items-center mt-12 mb-12">
-        <Link className="mx-auto w-2/3" to="/">
-          <img src={LoginPicture} alt="Logo" className=" mb-4 object-contain" />
-        </Link>
-        <h1 className="text-white text-2xl font-bold tracking-tight">ادوگو</h1>
-      </div>
-
-      {error && (
-        <div className="mx-auto bg-red-300 border border-red-800 px-4 py-2 rounded-2xl mb-2">
-          <p className="text-red-800">{error}</p>
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full max-w-sm mx-auto space-y-4"
-      >
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            نام کاربری
-          </label>
-          <input
-            type="text"
-            className="w-full form-input"
-            placeholder="نام کاربری"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+      <div className="mx-auto max-w-7xl min-h-screen grid lg:grid-cols-2">
+        {/* Branding Section */}
+        <div className="hidden lg:flex flex-col justify-center px-12 border-l border-[#222222]">
+          <img
+            src={LoginPicture}
+            alt="EduGo"
+            className="w-72 mx-auto mb-8 object-contain"
           />
+
+          <h1 className="text-5xl font-bold text-white mb-4 text-center">
+            ادوگو
+          </h1>
+
+          <p className="text-gray-400 text-xl text-center max-w-md mx-auto leading-relaxed">
+            یادگیری مرحله‌به‌مرحله، آزمون‌های تعاملی و دریافت گواهی پس از تکمیل
+            دروس.
+          </p>
         </div>
 
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            رمز عبور
-          </label>
-          <input
-            type="password"
-            className="w-full form-input"
-            placeholder="رمز عبور"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        {/* Login Form */}
+        <div className="flex items-center justify-center px-6 py-12">
+          <div className="w-full max-w-md">
+            {/* Mobile Logo */}
+            <div className="lg:hidden text-center mb-10">
+              <Link to="/">
+                <img
+                  src={LoginPicture}
+                  alt="EduGo"
+                  className="w-48 mx-auto mb-4"
+                />
+              </Link>
+
+              <h1 className="text-3xl font-bold text-white">ادوگو</h1>
+            </div>
+
+            <div className="bg-[#151515] border border-[#262626] rounded-3xl p-8">
+              <h2 className="text-3xl font-bold text-white mb-2">خوش آمدید</h2>
+
+              <p className="text-gray-400 mb-8">
+                برای ادامه وارد حساب خود شوید
+              </p>
+
+              {error && (
+                <div className="mb-6 rounded-2xl bg-red-500/10 border border-red-500/30 p-4">
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    نام کاربری
+                  </label>
+
+                  <input
+                    type="text"
+                    className="w-full form-input"
+                    placeholder="نام کاربری"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    رمز عبور
+                  </label>
+
+                  <input
+                    type="password"
+                    className="w-full form-input"
+                    placeholder="رمز عبور"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="
+                  w-full
+                  py-4
+                  rounded-2xl
+                  bg-custard
+                  text-black
+                  font-bold
+                  transition-all
+                  hover:scale-[1.02]
+                "
+                >
+                  ورود
+                </button>
+              </form>
+
+              <div className="text-center mt-6">
+                <span className="text-gray-400">حسابی ندارید؟</span>
+
+                <Link to="/signup" className="text-custard mr-2 font-semibold">
+                  ثبت‌نام کنید
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <button
-          type="submit"
-          className="w-full bg-custard text-black font-bold py-3.5 rounded-full mt-4 active:scale-95 transition-transform"
-        >
-          ورود
-        </button>
-      </form>
-
-      <div className="flex flex-row mx-auto gap-2 mt-6 text-center">
-        <p className="text-white text-sm">حسابی ندارید؟</p>
-        <Link className="text-blue-500 font-semibold text-sm" to="/signup">
-          ثبت‌نام کنید
-        </Link>
       </div>
     </div>
   );

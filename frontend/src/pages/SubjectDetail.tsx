@@ -157,129 +157,132 @@ const SubjectDetail = () => {
       </div>
     );
   }
-
   return (
     <div
-      className="flex flex-col min-h-screen bg-secondary p-8 dir-rtl text-white"
+      className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black text-white"
       dir="rtl"
     >
-      <Link
-        to="/home"
-        className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          className="lucide lucide-arrow-left transform scale-x-[-1]"
+      <div className="mx-auto w-full md:w-2/3 px-4 py-8 lg:px-8 lg:py-12">
+        {/* Back */}
+        <Link
+          to="/home"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
         >
-          <path d="m12 19-7-7 7-7"></path>
-          <path d="M19 12H5"></path>
-        </svg>
-        <span>برگشت</span>
-      </Link>
-      {showCelebration && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
-          {/* <Confetti /> If you installed it */}
-          <div className="bg-[#1a1a1a] border-2 border-custard rounded-3xl p-8 text-center max-w-sm w-full shadow-[0_0_50px_rgba(255,255,203,0.2)] animate-in zoom-in duration-300">
-            <div className="text-6xl mb-4">🎓</div>
-            <h2 className="text-2xl font-bold text-custard mb-2">
-              تبریک فراوان!
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              شما تمام مراحل درس{" "}
-              <span className="text-white font-bold">
-                {subjectDetail?.title}
-              </span>{" "}
-              را با موفقیت پشت سر گذاشتید.
-            </p>
-            <button
-              onClick={() => setShowCelebration(false)}
-              className="w-full py-3 bg-custard text-black font-bold rounded-xl hover:scale-105 transition-transform"
-            >
-              بسیار عالی!
-            </button>
-          </div>
-        </div>
-      )}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-[#19222c]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-calculator"
+            className="scale-x-[-1]"
           >
-            <rect width="16" height="20" x="4" y="2" rx="2"></rect>
-            <line x1="8" x2="16" y1="6" y2="6"></line>
-            <line x1="16" x2="16" y1="14" y2="18"></line>
-            <path d="M16 10h.01"></path>
-            <path d="M12 10h.01"></path>
-            <path d="M8 10h.01"></path>
-            <path d="M12 14h.01"></path>
-            <path d="M8 14h.01"></path>
-            <path d="M12 18h.01"></path>
-            <path d="M8 18h.01"></path>
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
           </svg>
+          برگشت
+        </Link>
+
+        {/* Celebration */}
+        {showCelebration && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
+            <div className="bg-[#151515] border border-custard rounded-3xl p-8 lg:p-10 max-w-md w-full text-center">
+              <div className="text-7xl mb-4">🎓</div>
+
+              <h2 className="text-3xl font-bold text-custard mb-3">تبریک!</h2>
+
+              <p className="text-gray-400 mb-6">
+                شما تمام مراحل درس{" "}
+                <span className="text-white font-semibold">
+                  {subjectDetail?.title}
+                </span>{" "}
+                را با موفقیت به پایان رساندید.
+              </p>
+
+              <button
+                onClick={() => setShowCelebration(false)}
+                className="w-full py-4 rounded-2xl bg-custard text-black font-bold hover:scale-[1.02] transition"
+              >
+                بسیار عالی!
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Hero */}
+        <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+            <img
+              src={subjectDetail.image}
+              alt={subjectDetail.title}
+              className="w-20 h-20 rounded-3xl bg-custard/10 flex items-center justify-center shrink-0"
+            />
+
+            <div className="flex-1 text-center lg:text-right">
+              <h1 className="text-3xl lg:text-4xl font-bold mb-2">
+                {subjectDetail.title}
+              </h1>
+
+              <p className="text-gray-400">{subjectDetail.description}</p>
+            </div>
+          </div>
         </div>
+
+        {/* Progress */}
+        <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">پیشرفت درس</h2>
+
+            <span className="text-3xl font-bold text-custard">
+              {progressPercentage}%
+            </span>
+          </div>
+
+          <div className="h-4 bg-[#262626] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-custard transition-all duration-700"
+              style={{
+                width: `${progressPercentage}%`,
+              }}
+            />
+          </div>
+
+          <p className="text-gray-400 mt-4">
+            {completedStages} مرحله از {totalStages} مرحله تکمیل شده
+          </p>
+        </div>
+
+        {/* Stages */}
         <div>
-          <h1 className="text-2xl mb-1">{subjectDetail.title}</h1>
-          <p className="text-muted-foreground">{subjectDetail.description}</p>
-        </div>
-      </div>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold">مراحل یادگیری</h2>
 
-      <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-secondary">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-muted-foreground">بطورکلی</span>
-          <span className="text-xl">{progressPercentage}%</span>
-        </div>
-        <div className="relative h-3 bg-secondary rounded-full overflow-hidden">
-          <div
-            className="absolute inset-y-0 left-0 rounded-full bg-custard"
-            style={{
-              width: `${progressPercentage}%`,
-            }}
-          ></div>
-        </div>
-        <div className="mt-3 text-sm text-muted-foreground">
-          {completedStages} مرحله از {totalStages} مرحله تکمیل شده
-        </div>
-      </div>
-      <div className="mt-4">
-        <h2 className="text-2xl">مراحل یادگیری</h2>
+            <span className="text-sm text-gray-500">{totalStages} مرحله</span>
+          </div>
 
-        <div className="flex flex-col space-y-3 mt-4">
-          {Array.isArray(subjectStages) &&
-            subjectStages.map((stage, index) => (
-              <StageCard
-                className="mt-4"
-                key={stage.id}
-                id={stage.id}
-                subject={stage.subject}
-                title={stage.title}
-                order={index + 1}
-                content={stage.content}
-                pass_score={stage.pass_score}
-                xp_reward={stage.xp_reward}
-                is_active={stage.is_active}
-                created_at={stage.created_at}
-                is_locked={stage.is_locked}
-                is_passed={stage.is_passed}
-              />
-            ))}
+          <div className="grid gap-4">
+            {Array.isArray(subjectStages) &&
+              subjectStages.map((stage, index) => (
+                <StageCard
+                  key={stage.id}
+                  id={stage.id}
+                  subject={stage.subject}
+                  title={stage.title}
+                  order={index + 1}
+                  content={stage.content}
+                  pass_score={stage.pass_score}
+                  xp_reward={stage.xp_reward}
+                  is_active={stage.is_active}
+                  created_at={stage.created_at}
+                  is_locked={stage.is_locked}
+                  is_passed={stage.is_passed}
+                />
+              ))}
+          </div>
         </div>
+
+        <div className="h-24" />
       </div>
     </div>
   );

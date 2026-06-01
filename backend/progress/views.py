@@ -72,3 +72,12 @@ class CertificateListView(ListAPIView):
 
     def get_queryset(self):
         return Certificate.objects.filter(user=self.request.user)
+
+
+class GetUserXPView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        student_stat = StudentStat.objects.get(user=user)
+        return Response({"xp": student_stat.total_xp})

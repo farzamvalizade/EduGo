@@ -35,38 +35,55 @@ const SubjectCard = ({
   return (
     <div
       className="
-              bg-[#1a1a1a] rounded-2xl p-5 border-2 border-custard/30 cursor-pointer transition-all duration-300 ease-out hover:border-custard/60 hover:scale-[1.03]"
-      tabIndex={0}
+      bg-[#1a1a1a]
+      rounded-2xl
+      p-4 md:p-5
+      border border-custard/20
+      transition-all duration-300
+      hover:border-custard/50
+      hover:-translate-y-1
+      hover:shadow-lg
+    "
     >
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center">
-          <img src={icon} alt={subject} className="w-full h-full" />
+      <div className="flex items-start gap-3 md:gap-4">
+        <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl overflow-hidden bg-[#242424] flex items-center justify-center">
+          <img
+            src={icon}
+            alt={subject}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div className="flex-1">
-          <h4 className="mb-1">{subject}</h4>
-          <p className="text-sm text-muted-foreground mb-3">
+
+        <div className="flex-1 min-w-0">
+          <h4 className="font-medium text-base md:text-lg truncate">
+            {subject}
+          </h4>
+
+          <p className="text-sm text-gray-400 mt-1">
             {completedStages} از {totalStages} مرحله
           </p>
+
           {isStarted && (
-            <div className="relative h-2 bg-secondary rounded-full overflow-hidden mb-3">
-              <div
-                className="
-                h-full
-                bg-custard
-                rounded-full
-                transition-[width] duration-700 ease-out
-              "
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+            <>
+              <div className="mt-3 h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-custard transition-all duration-700"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+
+              <div className="mt-2 text-xs text-gray-500">
+                {Math.floor(progress)}%
+              </div>
+            </>
           )}
 
           {isHomePage && (
             <Link
               to={continueUrl}
-              className="flex items-center gap-2 text-sm text-custard"
+              className="inline-flex items-center gap-2 mt-3 text-custard text-sm hover:opacity-80"
             >
-              <span>ادامه</span>
+              ادامه
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -77,7 +94,7 @@ const SubjectCard = ({
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="inline-block transform scale-x-[-1]"
+                className="scale-x-[-1]"
               >
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
@@ -87,45 +104,26 @@ const SubjectCard = ({
         </div>
       </div>
 
-      {!isHomePage && !isCompleted && (
-        <Link
-          to={continueUrl}
-          className="
+      {!isHomePage && (
+        <div className="mt-5">
+          <Link
+            to={continueUrl}
+            className={`
             w-full
-            inline-flex items-center justify-center
-            rounded-full
-            bg-custard/90 text-black
-            px-6 py-3
+            inline-flex
+            items-center
+            justify-center
+            rounded-xl
+            py-3
             font-medium
-            transition-all duration-300 ease-out
-            hover:bg-custard
-            hover:scale-[1.02]
-            hover:shadow-[0_8px_30px_rgba(255,255,203,0.35)]
-            active:scale-95
-          "
-        >
-          بیشتر ببینید
-        </Link>
-      )}
-      {isCompleted && (
-        <Link
-          to={continueUrl}
-          className="
-            w-full
-            inline-flex items-center justify-center
-            rounded-full
-            bg-[#2a2a2a] text-white
-            px-6 py-3
-            font-medium
-            transition-all duration-300 ease-out
-            hover:bg-custard
-            hover:scale-[1.02]
-            hover:shadow-[0_8px_30px_rgba(255,255,203,0.35)]
-            active:scale-95
-          "
-        >
-          کامل شده ✓
-        </Link>
+            transition-all
+            duration-300
+            ${isCompleted ? "bg-[#2a2a2a] text-white" : "bg-custard text-black"}
+          `}
+          >
+            {isCompleted ? "کامل شده ✓" : "بیشتر ببینید"}
+          </Link>
+        </div>
       )}
     </div>
   );

@@ -1,21 +1,28 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
-const API_URL = "https://edugo.ekarpol.ir/api";
+const API_URL = "https://farzam1389.pythonanywhere.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
 });
 
+const getToken = () => localStorage.getItem("access_token");
+const setToken = (token) => localStorage.setItem("access_token", token);
+const removeToken = () => localStorage.removeItem("access_token");
+
+const getRefreshToken = () => localStorage.getItem("refresh_token");
+const setRefreshToken = (token) => localStorage.setItem("refresh_token", token);
+const removeRefreshToken = () => localStorage.removeItem("refresh_token");
+
 api.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("access_token");
+    const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
@@ -27,7 +34,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = Cookies.get("refresh_token");
+        const refreshToken = getRefreshToken();
 
         const response = await axios.post(`${API_URL}/auth/token/refresh/`, {
           refresh: refreshToken,
@@ -35,7 +42,7 @@ api.interceptors.response.use(
 
         const { access } = response.data;
 
-        Cookies.set("access_token", access, { expires: 1 });
+        setToken(access);
 
         originalRequest.headers.Authorization = `Bearer ${access}`;
         return api(originalRequest);
@@ -45,26 +52,26 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 const authService = {
   isLoggedIn: () => {
-    return !!Cookies.get("access_token");
+    return !!getToken();
   },
 
-  login: async (username: string, password: string) => {
+  login: async (username, password) => {
     const response = await api.post("/auth/login/", { username, password });
     if (response.data.access) {
-      Cookies.set("access_token", response.data.access);
-      Cookies.set("refresh_token", response.data.refresh);
+      setToken(response.data.access);
+      setRefreshToken(response.data.refresh);
     }
     return response.data;
   },
 
   logout: () => {
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
+    removeToken();
+    removeRefreshToken();
     window.location.href = "/login";
   },
 

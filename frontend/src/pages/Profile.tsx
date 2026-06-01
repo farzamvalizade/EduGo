@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
+import StatCard from "@/components/StatCard";
 
 import authService from "../services/auth/authService";
 
@@ -14,6 +15,7 @@ import {
   CertificatesCount,
   IncompleteLessons,
   CertificateList,
+  UserStats,
 } from "@/services/api/api";
 
 import type { IncompleteLesson, Certificate } from "@/types/types";
@@ -43,6 +45,16 @@ const Profile = () => {
     IncompleteLesson[]
   >([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [userStats, setUserStats] = useState<
+    {
+      id: number;
+      total_xp: number;
+      level: number;
+      streak: number;
+      last_activity_date: string;
+      user: number;
+    }[]
+  >([]);
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -72,6 +84,11 @@ const Profile = () => {
       setCertificates(fetchCertificateList);
     };
 
+    const fetchUserStats = async () => {
+      const fetchUserStats = await UserStats();
+      setUserStats(fetchUserStats);
+    };
+
     const loadData = async () => {
       setLoading(true);
       try {
@@ -81,11 +98,13 @@ const Profile = () => {
           fetchCertificatesCount(),
           fetchIncompleteLessons(),
           fetchCertificateList(),
+          fetchUserStats(),
         ]);
       } catch (error) {
         console.error("Failed to load data", error);
       } finally {
         setLoading(false);
+        console.log(userStats);
       }
     };
 
@@ -117,201 +136,197 @@ const Profile = () => {
 
   return (
     <div
-      className="flex flex-col min-h-screen bg-secondary p-6 text-white"
+      className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black text-white"
       dir="rtl"
     >
-      <div className="flex flex-col items-center justify-center  text-black">
-        <div className="inline-flex items-center justify-center w-24 h-24 bg-linear-to-br from-custard/30 to-custard rounded-full mb-4 border-4 border-card">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-user text-custard-foreground"
-          >
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+      <Navbar />
+      <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8 lg:py-12 pt-28 lg:pt-32">
+        {/* Profile Hero */}
+        <div className="relative bg-linear-to-br from-[#151515] to-secondary border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8 overflow-hidden shadow-xl transition-all duration-300 hover:border-custard/30 hover:shadow-custard/5 group">
+          <div className="absolute -top-24 -right-24 w-48 h-48 bg-custard/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-custard/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="relative group/avatar">
+                <div className="absolute inset-0 rounded-full bg-linear-to-br from-custard/40 to-custard/10 blur-md opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-500" />
+                <div className="w-24 h-24 rounded-full bg-linear-to-br from-custard/30 to-custard/70 p-[2px]">
+                  <div className="w-full h-full rounded-full bg-[#151515] flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="42"
+                      height="42"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      className="text-custard/80 group-hover/avatar:text-custard transition-colors duration-300"
+                    >
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center sm:text-left">
+                <h1 className="text-3xl lg:text-4xl font-bold uppercase bg-linear-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                  {userDetail.username}
+                </h1>
+                <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="shrink-0"
+                  >
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 7-10 7L2 7" />
+                  </svg>
+                  <p className="text-sm truncate">{userDetail.email}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 bg-[#0a0a0a]/50 backdrop-blur-sm rounded-2xl px-6 py-3 border border-[#262626] group-hover:border-custard/20 transition-all duration-300">
+              <div className="text-right">
+                <div className="text-3xl font-bold text-custard tabular-nums">
+                  {userStats[0]?.total_xp ?? 0}
+                </div>
+                <div className="text-xs text-gray-400 uppercase tracking-wider flex items-center justify-end gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span>XP</span>
+                </div>
+              </div>
+              <div className="hidden sm:block w-px h-8 bg-[#262626] group-hover:bg-custard/30 transition-colors" />
+              <div className="hidden sm:block text-custard/40 text-xs font-mono">
+                ⚡
+              </div>
+            </div>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-custard/20 to-transparent" />
         </div>
 
-        <h1 className="text-2xl mb-1 text-white uppercase">
-          {userDetail.username}
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">{userDetail.email}</p>
-      </div>
+        {/* Statistics */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <StatCard title="درس‌های فعال" value={incompleteLessons.length} />
 
-      <div className="grid grid-cols-3 gap-3 mb-8 mt-8">
-        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
-          <div className="flex justify-center mb-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-book-open text-custard"
-            >
-              <path d="M12 7v14"></path>
-              <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
-            </svg>
-          </div>
-          <div className="text-2xl mb-1">
-            {incompleteLessons.length ? incompleteLessons.length : 0}
-          </div>
-          <div className="text-xs text-muted-foreground">درس‌ها</div>
-        </div>
-        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
-          <div className="flex justify-center mb-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-trophy text-custard"
-            >
-              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-              <path d="M4 22h16"></path>
-              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-            </svg>
-          </div>
-          <div className="text-2xl mb-1">
-            {userCompletedStages ? userCompletedStages : 0}
-          </div>
-          <div className="text-xs text-muted-foreground">مراحل</div>
-        </div>
-        <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-secondary text-center">
-          <div className="flex justify-center mb-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-award text-custard"
-            >
-              <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
-              <circle cx="12" cy="8" r="6"></circle>
-            </svg>
-          </div>
-          <div className="text-2xl mb-1">
-            {certificatesCount ? certificatesCount : 0}
-          </div>
-          <div className="text-xs text-muted-foreground">گواهی‌ها</div>
-        </div>
-      </div>
+          <StatCard title="مراحل تکمیل شده" value={userCompletedStages} />
 
-      <div className="mt-6">
-        <h3 className="text-lg mb-3">دست‌آوردهای اخیر</h3>
-        <div className="flex flex-col gap-3">
-          {Array.isArray(incompleteLessons) &&
-            certificates.map((cert) => (
-              <div key={cert.id} className="space-y-3">
-                <div className="bg-linear-to-br from-[#1a1a1a] to-custard/5 rounded-2xl p-5 border border-custard/30">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center"
-                        style={{
-                          backgroundColor: "rgba(255, 255, 203, 0.125)",
-                        }}
-                      >
+          <StatCard title="گواهی‌ها" value={certificatesCount} />
+
+          <StatCard title="دستاوردها" value={certificates.length} />
+        </div>
+
+        {/* Achievements */}
+        <div className="mb-10">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-2xl font-semibold">دست‌آوردهای اخیر</h2>
+
+            <span className="text-sm text-gray-500">
+              {certificates.length} مورد
+            </span>
+          </div>
+
+          {certificates.length > 0 ? (
+            <div className="grid md:grid-cols-2 gap-4">
+              {certificates.map((cert) => (
+                <div
+                  key={cert.id}
+                  className="
+                  bg-[#151515]
+                  border border-custard/20
+                  rounded-2xl
+                  p-5
+                  hover:border-custard/40
+                  transition-all
+                "
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-12 h-12 rounded-xl bg-custard/10 flex items-center justify-center">
                         {cert.subject_detail.image && (
                           <div
-                            className=" fill-current"
                             dangerouslySetInnerHTML={{
                               __html: cert.subject_detail.image,
                             }}
                           />
                         )}
                       </div>
-                      <div>
-                        <h4 className="mb-0.5">{cert.subject_detail.title}</h4>
+
+                      <div className="min-w-0">
+                        <h3 className="truncate font-medium">
+                          {cert.subject_detail.title}
+                        </h3>
+
+                        <p className="text-sm text-gray-400 mt-1">
+                          {new Date(cert.issued_at).toLocaleDateString("fa-IR")}
+                        </p>
                       </div>
                     </div>
-                    <div className="w-10 h-10 text-black bg-custard rounded-xl flex items-center justify-center shrink-0">
+
+                    <div className="w-10 h-10 rounded-xl bg-custard text-black flex items-center justify-center shrink-0">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
+                        width="24"
+                        height="24"
                         viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-award text-custard-foreground"
+                        fill="currentColor"
                       >
-                        <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
-                        <circle cx="12" cy="8" r="6"></circle>
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                          fill="currentColor"
+                          d="M7 21v-2h4v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2V3h10v2h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h4v2zm0-10.2V7H5v1q0 .95.55 1.713T7 10.8m10 0q.9-.325 1.45-1.088T19 8V7h-2z"
+                        />
                       </svg>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-muted-foreground">
-                      اخذ شده در{" "}
-                      {new Date(cert.issued_at).toLocaleDateString("fa-IR")}
-                    </div>
-                  </div>
                 </div>
-              </div>
-            ))}
-        </div>
-        {certificates.length === 0 && (
-          <div className="flex items-center justify-center">
-            <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
-              هیچ گواهی‌‌ای وجود ندارد!
+              ))}
             </div>
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="bg-red-900/20 border border-red-800 rounded-2xl p-5 text-center text-red-200">
+              هیچ گواهی‌ای وجود ندارد!
+            </div>
+          )}
+        </div>
 
-      <div className="space-y-3 mt-4">
-        <button
-          onClick={handleLogout}
-          className="px-6 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary-light text-secondary-foreground hover:bg-secondary-light/80 w-full flex items-center justify-center gap-3 hover:cursor-pointer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-log-out"
+        {/* Logout */}
+        <div className="max-w-md mx-auto">
+          <button
+            onClick={handleLogout}
+            className="
+            w-full
+            bg-red-500/10
+            border border-red-500/20
+            text-red-300
+            rounded-2xl
+            py-4
+            font-medium
+            hover:bg-red-500/20
+            transition-all
+          "
           >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" x2="9" y1="12" y2="12"></line>
-          </svg>
-          <span>خروج</span>
-        </button>
-      </div>
+            خروج از حساب
+          </button>
+        </div>
 
-      <Navbar />
+        <div className="h-24" />
+      </div>
     </div>
   );
 };

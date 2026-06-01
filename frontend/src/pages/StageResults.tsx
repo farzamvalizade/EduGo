@@ -8,73 +8,120 @@ const QuizResult = ({
   results: ApiResponse;
   onBack: () => void;
 }) => (
-  <div className="flex flex-col items-center justify-center max-w-2xl mx-auto text-center space-y-6 animate-in fade-in zoom-in duration-300">
-    <div
-      className={`w-24 h-24 rounded-full flex items-center justify-center mx-auto shadow-lg ${results.is_passed ? "bg-[#1a1a1a]" : "bg-[#1a1a1a]"}`}
-    >
-      <span className="text-4xl">
+  <div className="max-w-3xl mx-auto animate-in fade-in zoom-in duration-300">
+    <div className="bg-[#151515] border border-[#262626] rounded-3xl p-8 lg:p-10 text-center">
+      {/* Icon */}
+      <div
+        className={`
+        w-28 h-28 mx-auto mb-6
+        rounded-full
+        flex items-center justify-center
+        border
+        ${
+          results.is_passed
+            ? "border-custard bg-custard/10"
+            : "border-red-500/30 bg-red-500/10"
+        }
+      `}
+      >
         {results.is_passed ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
+            width="54"
+            height="54"
             viewBox="0 0 24 24"
+            fill="currentColor"
+            className="text-custard"
           >
+            <path d="M0 0h24v24H0z" fill="none" />
             <path
               fill="currentColor"
-              d="M11 19v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2q0-.825.588-1.412T9 3h6q.825 0 1.413.588T17 5h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h3q.425 0 .713.288T17 20t-.288.713T16 21H8q-.425 0-.712-.288T7 20t.288-.712T8 19zm-4-8.2V7H5v1q0 .95.55 1.713T7 10.8m7.125 2.325Q15 12.25 15 11V5H9v6q0 1.25.875 2.125T12 14t2.125-.875M17 10.8q.9-.325 1.45-1.088T19 8V7h-2zm-5-1.3"
+              d="M7 21v-2h4v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2V3h10v2h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h4v2zm0-10.2V7H5v1q0 .95.55 1.713T7 10.8m10 0q.9-.325 1.45-1.088T19 8V7h-2z"
             />
           </svg>
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
+            width="54"
+            height="54"
             viewBox="0 0 16 16"
+            fill="currentColor"
+            className="text-red-400"
           >
-            <path
-              fill="currentColor"
-              fill-rule="evenodd"
-              d="M7.32.029a8 8 0 0 1 7.18 3.307V1.75a.75.75 0 0 1 1.5 0V6h-4.25a.75.75 0 0 1 0-1.5h1.727A6.5 6.5 0 0 0 1.694 6.424A.75.75 0 1 1 .239 6.06A8 8 0 0 1 7.319.03Zm-3.4 14.852A8 8 0 0 0 15.76 9.94a.75.75 0 0 0-1.455-.364A6.5 6.5 0 0 1 2.523 11.5H4.25a.75.75 0 0 0 0-1.5H0v4.25a.75.75 0 0 0 1.5 0v-1.586a8 8 0 0 0 2.42 2.217"
-              clip-rule="evenodd"
-            />
+            <path d="M7.32.029a8 8 0 0 1 7.18 3.307V1.75a.75.75 0 0 1 1.5 0V6h-4.25a.75.75 0 0 1 0-1.5h1.727A6.5 6.5 0 0 0 1.694 6.424A.75.75 0 1 1 .239 6.06A8 8 0 0 1 7.319.03Zm-3.4 14.852A8 8 0 0 0 15.76 9.94a.75.75 0 0 0-1.455-.364A6.5 6.5 0 0 1 2.523 11.5H4.25a.75.75 0 0 0 0-1.5H0v4.25a.75.75 0 0 0 1.5 0v-1.586a8 8 0 0 0 2.42 2.217" />
           </svg>
         )}
-      </span>
-    </div>
-
-    <h1 className="text-3xl font-bold text-custard">
-      {results.is_passed
-        ? "تبریک! مرحله با موفقیت پشت سرگذاشته شد "
-        : "دوباره تلاش کن"}
-    </h1>
-
-    <div className="grid grid-cols-2 gap-4 w-full">
-      <div className="bg-[#1a1a1a] p-6 rounded-2xl border border-[#222222]">
-        <div className="text-3xl text-custard font-bold">{results.score}</div>
-        <div className="text-xs text-muted-foreground">امتیاز کسب شده</div>
       </div>
-      <div className="bg-[#1a1a1a] p-6 rounded-2xl border border-[#222222]">
-        <div className="text-3xl text-white font-bold">
-          {results.total_questions}
+
+      {/* Title */}
+      <h1
+        className={`text-3xl lg:text-4xl font-bold mb-3 ${
+          results.is_passed ? "text-custard" : "text-red-400"
+        }`}
+      >
+        {results.is_passed ? "تبریک! 🎉" : "نیاز به تلاش بیشتر"}
+      </h1>
+
+      <p className="text-gray-400 mb-8">
+        {results.is_passed
+          ? "شما این مرحله را با موفقیت پشت سر گذاشتید."
+          : "این بار موفق نشدید، اما می‌توانید دوباره تلاش کنید."}
+      </p>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="bg-black/30 border border-[#262626] rounded-2xl p-5">
+          <div className="text-4xl font-bold text-custard mb-2">
+            {results.score}
+          </div>
+          <div className="text-sm text-gray-400">امتیاز</div>
         </div>
-        <div className="text-xs text-muted-foreground">کل سوالات</div>
-      </div>
-    </div>
 
-    <div className="w-full bg-[#1a1a1a] p-4 rounded-2xl border border-[#222222] space-y-3">
-      <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">XP جایزه:</span>
-        <span className="text-custard">+{results.xp_gained}</span>
-      </div>
-    </div>
+        <div className="bg-black/30 border border-[#262626] rounded-2xl p-5">
+          <div className="text-4xl font-bold mb-2">
+            {results.total_questions}
+          </div>
+          <div className="text-sm text-gray-400">تعداد سوالات</div>
+        </div>
 
-    <button
-      onClick={onBack}
-      className="w-full py-4 bg-custard text-black font-bold rounded-full hover:scale-[1.02] transition-transform"
-    >
-      متوجه شدم
-    </button>
+        <div className="bg-black/30 border border-[#262626] rounded-2xl p-5">
+          <div className="text-4xl font-bold text-custard mb-2">
+            +{results.xp_gained}
+          </div>
+          <div className="text-sm text-gray-400">XP دریافتی</div>
+        </div>
+      </div>
+
+      {/* Progress Badge */}
+      <div className="bg-custard/5 border border-custard/20 rounded-2xl p-5 mb-8">
+        <div className="text-sm text-gray-400 mb-2">وضعیت آزمون</div>
+
+        <div
+          className={`text-lg font-semibold ${
+            results.is_passed ? "text-custard" : "text-red-400"
+          }`}
+        >
+          {results.is_passed ? "قبول شدید" : "قبول نشدید"}
+        </div>
+      </div>
+
+      {/* Action */}
+      <button
+        onClick={onBack}
+        className="
+        w-full
+        py-4
+        rounded-2xl
+        bg-custard
+        text-black
+        font-bold
+        transition-all
+        hover:scale-[1.02]
+      "
+      >
+        ادامه
+      </button>
+    </div>
   </div>
 );
 

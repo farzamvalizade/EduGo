@@ -44,135 +44,171 @@ const Login = () => {
 
   return (
     <div
-      className="flex flex-col min-h-screen bg-secondary p-8 dir-rtl"
+      className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-black"
       dir="rtl"
     >
-      <div className="flex flex-col items-center mt-12 mb-12">
-        <Link className="mx-auto w-2/3" to="/">
-          <img src={LoginPicture} alt="Logo" className=" mb-4 object-contain" />
-        </Link>
-        <h1 className="text-white text-2xl font-bold tracking-tight">ادوگو</h1>
-      </div>
-
-      {error && (
-        <div className="mx-auto bg-red-300 border border-red-800 px-4 py-2 rounded-2xl mb-2">
-          <p className="text-red-800">{error}</p>
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full max-w-sm mx-auto space-y-4"
-      >
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            نام کاربری
-          </label>
-          <input
-            type="text"
-            className="w-full form-input"
-            placeholder="نام کاربری"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+      <div className="mx-auto max-w-7xl min-h-screen grid lg:grid-cols-2">
+        {/* Branding Side */}
+        <div className="hidden lg:flex flex-col justify-center px-12 border-l border-[#262626]">
+          <img
+            src={LoginPicture}
+            alt="EduGo"
+            className="w-80 mx-auto mb-8 object-contain"
           />
+
+          <h1 className="text-5xl font-bold text-white text-center mb-4">
+            ادوگو
+          </h1>
+
+          <p className="text-xl text-gray-400 text-center max-w-md mx-auto leading-relaxed">
+            مسیر یادگیری خود را آغاز کنید، مرحله‌به‌مرحله پیش بروید و گواهی
+            دریافت کنید.
+          </p>
         </div>
 
-        <div className="group">
-          <label
-            htmlFor="email"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            ایمیل
-          </label>
-          <input
-            type="email"
-            className="w-full form-input"
-            placeholder="ایمیل"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        {/* Register Form */}
+        <div className="flex items-center justify-center px-6 py-12">
+          <div className="w-full max-w-lg">
+            {/* Mobile Logo */}
+            <div className="lg:hidden text-center mb-10">
+              <Link to="/">
+                <img
+                  src={LoginPicture}
+                  alt="EduGo"
+                  className="w-48 mx-auto mb-4"
+                />
+              </Link>
+
+              <h1 className="text-3xl font-bold text-white">ادوگو</h1>
+            </div>
+
+            <div className="bg-[#151515] border border-[#262626] rounded-3xl p-8">
+              <h2 className="text-3xl font-bold text-white mb-2">
+                ایجاد حساب کاربری
+              </h2>
+
+              <p className="text-gray-400 mb-8">اطلاعات خود را وارد کنید</p>
+
+              {error && (
+                <div className="mb-6 rounded-2xl bg-red-500/10 border border-red-500/30 p-4">
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    نام کاربری
+                  </label>
+
+                  <input
+                    type="text"
+                    className="w-full form-input"
+                    placeholder="نام کاربری"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    ایمیل
+                  </label>
+
+                  <input
+                    type="email"
+                    className="w-full form-input"
+                    placeholder="ایمیل"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block mb-2 text-sm text-gray-300">
+                      نام
+                    </label>
+
+                    <input
+                      type="text"
+                      className="w-full form-input"
+                      placeholder="نام"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block mb-2 text-sm text-gray-300">
+                      نام خانوادگی
+                    </label>
+
+                    <input
+                      type="text"
+                      className="w-full form-input"
+                      placeholder="نام خانوادگی"
+                      value={surname}
+                      onChange={(e) => setSurname(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    رمز عبور
+                  </label>
+
+                  <input
+                    type="password"
+                    className="w-full form-input"
+                    placeholder="رمز عبور"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm text-gray-300">
+                    تکرار رمز عبور
+                  </label>
+
+                  <input
+                    type="password"
+                    className="w-full form-input"
+                    placeholder="تکرار رمز عبور"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="
+                  w-full
+                  py-4
+                  rounded-2xl
+                  bg-custard
+                  text-black
+                  font-bold
+                  transition-all
+                  hover:scale-[1.02]
+                "
+                >
+                  ثبت‌نام
+                </button>
+              </form>
+
+              <div className="text-center mt-6">
+                <span className="text-gray-400">حسابی دارید؟</span>
+
+                <Link to="/login" className="text-custard mr-2 font-semibold">
+                  وارد شوید
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="group">
-          <label
-            htmlFor="name"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            نام
-          </label>
-          <input
-            type="text"
-            className="w-full form-input"
-            placeholder="نام"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            نام خانوادگی
-          </label>
-          <input
-            type="text"
-            className="w-full form-input"
-            placeholder="نام خانوادگی"
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-          />
-        </div>
-
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            رمز عبور
-          </label>
-          <input
-            type="password"
-            className="w-full form-input"
-            placeholder="رمز عبور"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="group">
-          <label
-            htmlFor="username"
-            className="text-white text-base font-bold mr-2 mb-2 block"
-          >
-            تکرار رمز عبور
-          </label>
-          <input
-            type="password"
-            className="w-full form-input"
-            placeholder="تکرار رمز عبور"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-custard text-black font-bold py-3.5 rounded-full mt-4 active:scale-95 transition-transform"
-        >
-          ثبت‌نام
-        </button>
-      </form>
-
-      <div className="flex flex-row mx-auto gap-2 mt-6 text-center">
-        <p className="text-white text-sm">حسابی دارید؟</p>
-        <Link className="text-blue-500 font-semibold text-sm" to="/login">
-          وارد شوید
-        </Link>
       </div>
     </div>
   );

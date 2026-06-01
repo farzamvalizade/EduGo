@@ -1,8 +1,7 @@
-import Cookies from "js-cookie";
-
 import type { Subject, IncompleteLesson } from "@/types/types";
-
 import { api } from "@/services/auth/authService";
+
+const getToken = () => localStorage.getItem("access_token");
 
 export const SubjectList = async () => {
   const subjects: Subject[] = await api.get("/subjects");
@@ -10,7 +9,7 @@ export const SubjectList = async () => {
 };
 
 export const IncompleteLessons = async () => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
 
   if (!token) {
     return [];
@@ -28,7 +27,7 @@ export const IncompleteLessons = async () => {
 };
 
 export const UserCompletedStages = async () => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
 
   if (!token) {
     return [];
@@ -46,7 +45,7 @@ export const UserCompletedStages = async () => {
 };
 
 export const CertificatesCount = async (): Promise<number> => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return 0;
 
   const res = await api.get("/certificates", {
@@ -59,7 +58,7 @@ export const CertificatesCount = async (): Promise<number> => {
 };
 
 export const CertificateList = async () => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return [];
 
   const res = await api.get("/certificates", {
@@ -72,7 +71,7 @@ export const CertificateList = async () => {
 };
 
 export const UserDetails = async () => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return {};
 
   const res = await api.get("/auth/user/", {
@@ -97,7 +96,7 @@ export const Register = async (data: {
 };
 
 export const SubjectStageList = async (subjectId: number) => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return [];
 
   const res = await api.get(`/subjects/${subjectId}/stages/`, {
@@ -109,7 +108,7 @@ export const SubjectStageList = async (subjectId: number) => {
 };
 
 export const StageQuestionList = async (stageId: number) => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return [];
 
   const res = await api.get(`/stages/${stageId}/questions/`, {
@@ -125,22 +124,41 @@ export const checkStageAnswers = async (
   stageId: number,
   answers: Record<number, number>,
 ) => {
+  const token = getToken();
   const response = await api.post(
     `/subjects/${subjectId}/stages/${stageId}/check/`,
+    { answers },
     {
-      answers,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     },
   );
   return response.data;
 };
 
 export const completeSubject = async (subjectId: number) => {
-  const token = Cookies.get("access_token");
+  const token = getToken();
   if (!token) return {};
-  const response = await api.post(`/subjects/${subjectId}/complete/`, {
+  const response = await api.post(
+    `/subjects/${subjectId}/complete/`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+export const UserStats = async () => {
+  const token = getToken();
+  if (!token) return [];
+
+  const response = await api.get("/me/stat/", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(response.data);
   return response.data;
 };

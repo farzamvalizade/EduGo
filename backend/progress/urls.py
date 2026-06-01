@@ -5,6 +5,7 @@ from .views import (
     StudentStatView,
     CompleteSubjectView,
     CertificateListView,
+    GetUserXPView,
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
         name="complete-subject",
     ),
     path("certificates/", CertificateListView.as_view(), name="certificate-list"),
+    path("me/xp/", GetUserXPView.as_view(), name="get-user-xp"),
 ]

@@ -80,57 +80,87 @@ const Subjects = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen p-6 text-white">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl mb-3">همه‌ی درس‌ها</h1>
-        <p className="text-lg text-muted-foreground">
-          یک درس را برای یادگیری انتخاب کنید
-        </p>
-      </div>
-
-      {/* Incomplete Subjects */}
-      <div className="flex flex-col space-y-4 mb-2">
-        {Array.isArray(startedSubjects) &&
-          startedSubjects.map((subject) => (
-            <SubjectCard
-              key={subject.lesson_id}
-              subject={subject.title}
-              completedStages={subject.completedStage}
-              totalStages={subject.totalStage}
-              icon={subject.image}
-              continueUrl={`/subjects/${subject.id}`}
-              isStarted={true}
-            />
-          ))}
-      </div>
-
-      <div className="flex flex-col space-y-4 mb-2">
-        {Array.isArray(subjects) &&
-          subjects.map((subject) => (
-            <SubjectCard
-              key={subject.id}
-              subject={subject.title}
-              completedStages={subject.stages_count}
-              totalStages={subject.stages_count}
-              icon={subject.image}
-              continueUrl={`/subjects/${subject.id}`}
-              isStarted={false}
-              isCompleted={false}
-              isHomePage={false}
-            />
-          ))}
-      </div>
-
-      {subjects.length === 0 && startedSubjects.length === 0 && (
-        <div className="flex items-center justify-center">
-          <div className="w-full mx-auto text-center text bg-red-300 text-red-800 rounded-xl px-4 py-2 mb-2">
-            درسی وجود ندارد!
-          </div>
-        </div>
-      )}
-
+    <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black text-white">
       <Navbar />
+      <div className="mx-auto w-full md:w-2/3 px-4 py-8 lg:px-8 lg:py-12 pt-28 lg:pt-32">
+        {/* Header */}
+        <div className="mb-12 border-b border-white/10 pb-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="rounded-xl bg-custard/15 p-2.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="text-custard"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M8 6h9v2H8z" />
+                <path d="M20 2H6C4.35 2 3 3.35 3 5v14c0 1.65 1.35 3 3 3h15v-2H6c-.55 0-1-.45-1-1s.45-1 1-1h14c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1m-6 14H6c-.35 0-.69.07-1 .18V5c0-.55.45-1 1-1h13v12z" />
+              </svg>
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+              همه‌ی درس‌ها
+            </h1>
+          </div>
+          <p className="text-gray-400 text-base md:text-lg">
+            یک درس را برای یادگیری انتخاب کنید
+          </p>
+        </div>
+
+        {/* Started Subjects */}
+        {startedSubjects.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold mb-5">ادامه یادگیری</h2>
+
+            <div className="grid gap-4">
+              {startedSubjects.map((subject) => (
+                <SubjectCard
+                  key={subject.lesson_id}
+                  subject={subject.title}
+                  completedStages={subject.completedStage}
+                  totalStages={subject.totalStage}
+                  icon={subject.image}
+                  continueUrl={`/subjects/${subject.id}`}
+                  isStarted={true}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* All Subjects */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-5">همه دروس</h2>
+
+          {subjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {subjects.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  subject={subject.title}
+                  completedStages={subject.stages_count}
+                  totalStages={subject.stages_count}
+                  icon={subject.image}
+                  continueUrl={`/subjects/${subject.id}`}
+                  isStarted={false}
+                  isCompleted={false}
+                  isHomePage={false}
+                />
+              ))}
+            </div>
+          ) : (
+            startedSubjects.length === 0 && (
+              <div className="rounded-2xl bg-red-900/20 border border-red-800 p-5 text-center text-red-200">
+                درسی وجود ندارد!
+              </div>
+            )
+          )}
+        </div>
+
+        <div className="h-24" />
+      </div>
     </div>
   );
 };
