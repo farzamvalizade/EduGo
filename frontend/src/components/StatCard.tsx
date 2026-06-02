@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 interface StatCardProps {
   title: string;
   value: number;
-  icon?: ReactNode; // Optional icon element (e.g., <Trophy />)
-  trend?: "up" | "down" | null; // Optional trend indicator
+  icon?: ReactNode;
+  trend?: "up" | "down" | null;
 }
 
 const StatCard = ({ title, value, icon, trend }: StatCardProps) => (

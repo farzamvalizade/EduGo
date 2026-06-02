@@ -1,7 +1,9 @@
+from rest_framework import generics
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, ContactSerializer
 
 
 class RegisterView(APIView):
@@ -14,3 +16,11 @@ class RegisterView(APIView):
                 status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ContactView(generics.CreateAPIView):
+    serializer_class = ContactSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

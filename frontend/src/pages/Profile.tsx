@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
@@ -223,13 +223,84 @@ const Profile = () => {
 
         {/* Statistics */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          <StatCard title="درس‌های فعال" value={incompleteLessons.length} />
+          <StatCard
+            title="درس‌های فعال"
+            value={incompleteLessons?.length || 0}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            }
+          />
 
-          <StatCard title="مراحل تکمیل شده" value={userCompletedStages} />
+          <StatCard
+            title="مراحل تکمیل شده"
+            value={userCompletedStages || 0}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            }
+          />
 
-          <StatCard title="گواهی‌ها" value={certificatesCount} />
+          <StatCard
+            title="گواهی‌ها"
+            value={certificatesCount || 0}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 17v4l3-2l3 2v-4M13.957 4.275l-.323-.444a2.022 2.022 0 0 0-3.268 0l-.323.444L9.5 4.19A2.02 2.02 0 0 0 7.19 6.5l.085.543l-.444.323a2.02 2.02 0 0 0 0 3.268l.444.323l-.085.542A2.02 2.02 0 0 0 9.5 13.81l.543-.085l.323.444a2.022 2.022 0 0 0 3.268 0l.323-.444l.542.085a2.02 2.02 0 0 0 2.311-2.31l-.085-.543l.444-.323a2.022 2.022 0 0 0 0-3.268l-.444-.323l.085-.542A2.02 2.02 0 0 0 14.5 4.19z"
+                />
+              </svg>
+            }
+          />
 
-          <StatCard title="دستاوردها" value={certificates.length} />
+          <StatCard
+            title="دستاوردها"
+            value={certificates?.length || 0}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            }
+          />
         </div>
 
         {/* Achievements */}
@@ -303,6 +374,25 @@ const Profile = () => {
               هیچ گواهی‌ای وجود ندارد!
             </div>
           )}
+        </div>
+
+        <div className="max-w-md mx-auto mb-6">
+          <div className="flex justify-center gap-4">
+            <Link
+              to="/contact"
+              className="flex-1 text-center bg-gray-800/50 border border-gray-700 text-gray-200 rounded-2xl py-3 px-4 font-medium hover:bg-custard/10 hover:border-custard/40 hover:text-custard transition-all duration-300"
+            >
+              تماس با ما
+            </Link>
+            <a
+              href="https://farzamv.ir"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 text-center bg-gray-800/50 border border-gray-700 text-gray-200 rounded-2xl py-3 px-4 font-medium hover:bg-custard/10 hover:border-custard/40 hover:text-custard transition-all duration-300"
+            >
+              درباره ما
+            </a>
+          </div>
         </div>
 
         {/* Logout */}

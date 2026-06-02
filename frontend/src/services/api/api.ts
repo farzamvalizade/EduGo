@@ -162,3 +162,17 @@ export const UserStats = async () => {
   console.log(response.data);
   return response.data;
 };
+
+export const sendContact = async (data: {
+  type: string;
+  subject: string;
+  message: string;
+}) => {
+  const token = getToken();
+  if (!token) return {};
+
+  const response = await api.post("/contact/", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};

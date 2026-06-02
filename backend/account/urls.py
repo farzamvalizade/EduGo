@@ -1,9 +1,10 @@
 from django.urls import path, include
 
-from .views import RegisterView
+from .views import RegisterView, ContactView
 
 urlpatterns = [
     path("auth/", include("dj_rest_auth.urls")),
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
     path("register/", RegisterView.as_view()),
+    path("contact/", ContactView.as_view()),
 ]

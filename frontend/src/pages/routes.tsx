@@ -9,6 +9,7 @@ const Subjects = lazy(() => import("./Subjects.tsx"));
 const Progress = lazy(() => import("./Progress.tsx"));
 const SubjectDetail = lazy(() => import("./SubjectDetail.tsx"));
 const StageDetail = lazy(() => import("./StageDetail.tsx"));
+const Contact = lazy(() => import("./Contact.tsx"));
 
 // Routes
 const routes: { path: string; element: any }[] = [
@@ -21,6 +22,7 @@ const routes: { path: string; element: any }[] = [
   { path: "/subjects/:id", element: <SubjectDetail /> },
   { path: "/subjects/:id/stages/:stageId", element: <StageDetail /> },
   { path: "/progress", element: <Progress /> },
+  { path: "/contact", element: <Contact /> },
 ];
 
 export default routes;
