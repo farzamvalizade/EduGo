@@ -10,7 +10,6 @@ const QuizResult = ({
 }) => (
   <div className="max-w-3xl mx-auto animate-in fade-in zoom-in duration-300">
     <div className="bg-[#151515] border border-[#262626] rounded-3xl p-8 lg:p-10 text-center">
-      {/* Icon */}
       <div
         className={`
         w-28 h-28 mx-auto mb-6
@@ -53,7 +52,6 @@ const QuizResult = ({
         )}
       </div>
 
-      {/* Title */}
       <h1
         className={`text-3xl lg:text-4xl font-bold mb-3 ${
           results.is_passed ? "text-custard" : "text-red-400"
@@ -68,7 +66,6 @@ const QuizResult = ({
           : "این بار موفق نشدید، اما می‌توانید دوباره تلاش کنید."}
       </p>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="bg-black/30 border border-[#262626] rounded-2xl p-5">
           <div className="text-4xl font-bold text-custard mb-2">
@@ -92,7 +89,6 @@ const QuizResult = ({
         </div>
       </div>
 
-      {/* Progress Badge */}
       <div className="bg-custard/5 border border-custard/20 rounded-2xl p-5 mb-8">
         <div className="text-sm text-gray-400 mb-2">وضعیت آزمون</div>
 
@@ -105,7 +101,6 @@ const QuizResult = ({
         </div>
       </div>
 
-      {/* Action */}
       <button
         onClick={onBack}
         className="

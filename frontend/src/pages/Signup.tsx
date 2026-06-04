@@ -48,7 +48,6 @@ const Login = () => {
       dir="rtl"
     >
       <div className="mx-auto max-w-7xl min-h-screen grid lg:grid-cols-2">
-        {/* Branding Side */}
         <div className="hidden lg:flex flex-col justify-center px-12 border-l border-[#262626]">
           <img
             src={LoginPicture}
@@ -66,10 +65,8 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Register Form */}
         <div className="flex items-center justify-center px-6 py-12">
           <div className="w-full max-w-lg">
-            {/* Mobile Logo */}
             <div className="lg:hidden text-center mb-10">
               <Link to="/">
                 <img

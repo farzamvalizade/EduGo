@@ -95,7 +95,6 @@ const Progress = () => {
     <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black text-white">
       <Navbar />
       <div className="mx-auto w-full md:w-2/3 px-4 py-8 lg:px-8 lg:py-12 pt-28 lg:pt-32">
-        {/* Header */}
         <div className="mb-12 border-b border-white/10 pb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="rounded-xl bg-custard/15 p-2.5">
@@ -123,7 +122,6 @@ const Progress = () => {
             مسیر یادگیری‌تان را دنبال کنید
           </p>
         </div>
-        {/* Hero Progress Card */}
         <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
@@ -147,7 +145,6 @@ const Progress = () => {
           </div>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <StatCard
             title="مراحل تکمیل شده"
@@ -229,7 +226,6 @@ const Progress = () => {
           />
         </div>
 
-        {/* Achievements */}
         <div>
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-2xl font-semibold">دست‌آوردهای اخیر</h3>

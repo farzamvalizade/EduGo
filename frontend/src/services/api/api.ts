@@ -176,3 +176,31 @@ export const sendContact = async (data: {
   });
   return response.data;
 };
+
+export const joinOrCreateContest = async (): Promise<any> => {
+  const response = await api.post("/contest/join-or-create/");
+  return response.data;
+};
+
+export const submitContestAnswers = async (
+  contestId: number,
+  selectedAnswers: Record<number, number>,
+): Promise<any> => {
+  const answersArray = Object.values(selectedAnswers);
+  const response = await api.post(`/contest/${contestId}/submit/`, {
+    answers: answersArray,
+  });
+  return response.data;
+};
+
+export const getContestStatus = async (contestId: number): Promise<any> => {
+  const response = await api.get(`/contest/${contestId}/status/`);
+  return response.data;
+};
+
+export const cancelWaitingContest = async (
+  contestId: number,
+): Promise<{ message: string }> => {
+  const response = await api.post(`/contest/${contestId}/cancel/`);
+  return response.data;
+};

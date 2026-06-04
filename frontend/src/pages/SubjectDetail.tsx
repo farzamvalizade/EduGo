@@ -163,7 +163,6 @@ const SubjectDetail = () => {
       dir="rtl"
     >
       <div className="mx-auto w-full md:w-2/3 px-4 py-8 lg:px-8 lg:py-12">
-        {/* Back */}
         <Link
           to="/home"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
@@ -184,7 +183,6 @@ const SubjectDetail = () => {
           برگشت
         </Link>
 
-        {/* Celebration */}
         {showCelebration && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
             <div className="bg-[#151515] border border-custard rounded-3xl p-8 lg:p-10 max-w-md w-full text-center">
@@ -210,7 +208,6 @@ const SubjectDetail = () => {
           </div>
         )}
 
-        {/* Hero */}
         <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8">
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <img
@@ -229,7 +226,6 @@ const SubjectDetail = () => {
           </div>
         </div>
 
-        {/* Progress */}
         <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 mb-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">پیشرفت درس</h2>
@@ -253,7 +249,6 @@ const SubjectDetail = () => {
           </p>
         </div>
 
-        {/* Stages */}
         <div>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold">مراحل یادگیری</h2>

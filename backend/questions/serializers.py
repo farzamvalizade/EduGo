@@ -24,7 +24,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    options = ChoiceSerializer(source="choice_set", many=True, read_only=True)
+    options = ChoiceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Question

@@ -83,7 +83,6 @@ const Subjects = () => {
     <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-black text-white">
       <Navbar />
       <div className="mx-auto w-full md:w-2/3 px-4 py-8 lg:px-8 lg:py-12 pt-28 lg:pt-32">
-        {/* Header */}
         <div className="mb-12 border-b border-white/10 pb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="rounded-xl bg-custard/15 p-2.5">
@@ -109,7 +108,6 @@ const Subjects = () => {
           </p>
         </div>
 
-        {/* Started Subjects */}
         {startedSubjects.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold mb-5">ادامه یادگیری</h2>
@@ -130,7 +128,6 @@ const Subjects = () => {
           </div>
         )}
 
-        {/* All Subjects */}
         <div>
           <h2 className="text-2xl font-semibold mb-5">همه دروس</h2>
 

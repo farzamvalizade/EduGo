@@ -4,15 +4,13 @@ import HomeIcon from "@/assets/icons/HomeIcon";
 import SubjectsIcon from "@/assets/icons/SubjectsIcon";
 import ProgressIcon from "@/assets/icons/ProgressIcon";
 import ProfileIcon from "@/assets/icons/ProfileIcon";
+import { ContestIcon } from "@/assets/icons/ContestIcon";
 
 const Navbar = () => {
   const { pathname } = useLocation();
 
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(path + "/");
-
-  const itemClass = (active: boolean) =>
-    active ? "text-custard font-semibold" : "text-muted-foreground";
 
   const links = [
     {
@@ -24,6 +22,11 @@ const Navbar = () => {
       path: "/subjects",
       title: "دروس",
       icon: SubjectsIcon,
+    },
+    {
+      path: "/contest",
+      title: "مسابقه",
+      icon: ContestIcon,
     },
     {
       path: "/progress",
@@ -84,11 +87,13 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navbar */}
-      <nav className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
+      {/* Mobile Navbar - horizontally scrollable */}
+      {/* Mobile Navbar - items shrunk to fit */}
+      <nav className="lg:hidden w-11/12 fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
         <div
           className="
-      flex items-center gap-1
+      flex items-center justify-between  /* or keep items-center gap-0.5 */
+      gap-0.5
       p-2
       rounded-2xl
       border border-white/10
@@ -108,20 +113,23 @@ const Navbar = () => {
                 className={`
             flex flex-col items-center
             justify-center
-            gap-1
-            px-3 py-2
+            gap-0.5               /* smaller gap between icon and text */
+            px-2 py-2             /* reduced horizontal padding */
             rounded-xl
             transition-all duration-300
-            min-w-20
+            min-w-12              /* ~48px – adjust as needed */
             ${active ? "bg-custard text-black" : "text-gray-400"}
           `}
               >
                 <Icon
                   strokeWidth={active ? 2.5 : 2}
                   strokeColor={active ? "#000" : "currentColor"}
+                  className="w-5 h-5" /* optional: explicitly size icon */
                 />
 
-                <span className="text-[10px] font-medium">{item.title}</span>
+                <span className="text-[9px] font-medium whitespace-nowrap">
+                  {item.title}
+                </span>
               </Link>
             );
           })}

@@ -141,7 +141,6 @@ const Profile = () => {
     >
       <Navbar />
       <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8 lg:py-12 pt-28 lg:pt-32">
-        {/* Profile Hero */}
         <div className="relative bg-linear-to-br from-[#151515] to-secondary border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8 overflow-hidden shadow-xl transition-all duration-300 hover:border-custard/30 hover:shadow-custard/5 group">
           <div className="absolute -top-24 -right-24 w-48 h-48 bg-custard/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-custard/5 rounded-full blur-3xl pointer-events-none" />
@@ -221,7 +220,6 @@ const Profile = () => {
           <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-custard/20 to-transparent" />
         </div>
 
-        {/* Statistics */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <StatCard
             title="درس‌های فعال"
@@ -303,7 +301,6 @@ const Profile = () => {
           />
         </div>
 
-        {/* Achievements */}
         <div className="mb-10">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-2xl font-semibold">دست‌آوردهای اخیر</h2>
@@ -395,7 +392,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Logout */}
         <div className="max-w-md mx-auto">
           <button
             onClick={handleLogout}

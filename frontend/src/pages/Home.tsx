@@ -123,7 +123,6 @@ const Home = () => {
       <Navbar />
 
       <div className="w-full md:w-2/3 mx-auto max-w-6xl px-4 pt-28 lg:pt-32 py-8 lg:px-8 lg:py-12">
-        {/* Hero */}
         <div className="grid lg:grid-cols-[1fr_280px] gap-6 mb-10">
           <div>
             <h1 className="text-4xl lg:text-6xl font-bold mb-3">
@@ -154,7 +153,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Featured Lesson */}
         {incompleteLessons.length > 0 && (
           <div className="bg-linear-to-r from-custard/15 to-custard/5 border border-custard/30 rounded-3xl p-6 mb-10">
             <div className="flex flex-col lg:flex-row justify-between gap-6">
@@ -265,9 +263,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8">
-          {/* Continue Learning */}
           <div>
             <h3 className="text-2xl font-semibold mb-5">ادامه یادگیری</h3>
 
@@ -293,7 +289,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Recent Subjects */}
           <div>
             <h3 className="text-2xl font-semibold mb-5">دروس اخیر</h3>
 

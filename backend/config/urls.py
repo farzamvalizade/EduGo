@@ -23,7 +23,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="EduGo API",
@@ -44,6 +43,7 @@ urlpatterns = [
     path("api/", include("progress.urls")),
     path("api/", include("questions.urls")),
     path("api/", include("subjects.urls")),
+    path("api/", include("contests.urls")),
     path("api/<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"),
     path(
         "api/",

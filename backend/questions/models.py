@@ -33,7 +33,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, verbose_name="سؤال"
+        Question, on_delete=models.CASCADE, related_name="options", verbose_name="سؤال"
     )
     text = models.CharField(max_length=255, verbose_name="متن")
     is_correct = models.BooleanField(default=False, verbose_name="صحیح")

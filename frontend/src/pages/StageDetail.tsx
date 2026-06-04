@@ -92,7 +92,6 @@ const StageDetail = () => {
       dir="rtl"
     >
       <div className="mx-auto max-w-4xl px-4 py-8 lg:px-8 lg:py-12">
-        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={() => navigate(-1)}
@@ -130,7 +129,6 @@ const StageDetail = () => {
           <QuizResult results={results} onBack={() => navigate(-1)} />
         ) : (
           <div>
-            {/* Progress Card */}
             <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 mb-8">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-gray-400">پیشرفت آزمون</span>
@@ -150,7 +148,6 @@ const StageDetail = () => {
               </div>
             </div>
 
-            {/* Question */}
             <div className="bg-[#151515] border border-[#262626] rounded-3xl p-6 lg:p-8 mb-8">
               <div className="mb-3 text-sm text-custard">
                 سوال {currentIndex + 1}
@@ -161,7 +158,6 @@ const StageDetail = () => {
               </h2>
             </div>
 
-            {/* Answers */}
             <div className="space-y-4">
               {currentQuestion.options.map((option) => {
                 const isSelected =
@@ -228,7 +224,6 @@ const StageDetail = () => {
               })}
             </div>
 
-            {/* Footer Actions */}
             <div className="mt-8">
               {currentIndex < questions.length - 1 ? (
                 <button
