@@ -153,7 +153,10 @@ const StageDetail = () => {
                 سوال {currentIndex + 1}
               </div>
 
-              <h2 className="text-2xl lg:text-3xl font-bold leading-relaxed">
+              <h2
+                className="text-2xl lg:text-3xl font-bold leading-relaxed"
+                dir="auto"
+              >
                 {currentQuestion.title}
               </h2>
             </div>
@@ -199,6 +202,7 @@ const StageDetail = () => {
 
                         ${isSelected ? "text-custard" : "text-white"}
                       `}
+                        dir="auto"
                       >
                         {option.text}
                       </span>

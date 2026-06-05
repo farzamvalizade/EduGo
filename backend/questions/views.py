@@ -119,7 +119,7 @@ class StageQuestionListView(ListAPIView):
 
         stage = get_object_or_404(LessonStage, id=stage_id, is_active=True)
 
-        return Question.objects.filter(stage=stage).prefetch_related("choice_set")
+        return Question.objects.filter(stage=stage).prefetch_related("options")
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
