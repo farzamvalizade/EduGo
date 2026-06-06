@@ -2,14 +2,13 @@ import random
 from django.core.management.base import BaseCommand
 from django.utils.crypto import get_random_string
 from subjects.models import Subject, LessonStage
-from questions.models import Question, Choice  # your_app را با نام اپ خود جایگزین کنید
+from questions.models import Question, Choice
 
 
 class Command(BaseCommand):
     help = "ایجاد خودکار ۲ درس، ۲۰ مرحله (هر درس ۱۰ مرحله) و ۶۰ سوال (هر مرحله ۳ سوال)"
 
     def handle(self, *args, **options):
-        # حذف داده‌های قبلی (اختیاری)
         Subject.objects.all().delete()
         self.stdout.write("داده‌های قبلی پاک شد.")
 
@@ -17,7 +16,7 @@ class Command(BaseCommand):
         math_subj = Subject.objects.create(
             title="ریاضی",
             description="درس ریاضی پایه هفتم تا نهم",
-            image="subjects/math.jpg",  # در صورت نبود فایل، می‌توانید بعداً آپلود کنید
+            image="subjects/math.jpg",
             is_active=True,
         )
         eng_subj = Subject.objects.create(
@@ -32,8 +31,6 @@ class Command(BaseCommand):
             )
         )
 
-        # ----- ۲. تعریف داده‌های مراحل و سوالات -----
-        # هر درس شامل ۱۰ مرحله با عناوین و محتوای متفاوت
         math_stages_data = [
             {
                 "title": "اعداد صحیح",
@@ -78,18 +75,12 @@ class Command(BaseCommand):
             },
         ]
 
-        # ----- ۳. حلقه برای ایجاد مراحل و سوالات -----
-        # تعریف یک تابع کمکی برای ساخت سوالات هر مرحله
         def create_questions_for_stage(stage, stage_index, subject_name):
             """ساخت ۳ سوال برای یک مرحله (subject_name = 'math' یا 'eng')"""
-            # لیست سوالات بر اساس subject_name و شماره مرحله
-            # برای جلوگیری از تکرار کد، سوالات را به صورت شرطی می‌سازیم
             questions_data = []
 
             if subject_name == "math":
-                # سوالات ریاضی (هر مرحله ۳ سوال)
                 math_questions = [
-                    # مرحله 1: اعداد صحیح
                     [
                         {
                             "text": "حاصل ۵- (۳-) برابر است با:",
@@ -110,7 +101,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 2: کسرها
                     [
                         {
                             "text": "حاصل ۱/۲ + ۱/۳ کدام است؟",
@@ -131,7 +121,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 3: معادله خطی
                     [
                         {
                             "text": "معادله 2x = 10 را حل کنید. x=؟",
@@ -152,7 +141,6 @@ class Command(BaseCommand):
                             "correct": 2,
                         },
                     ],
-                    # مرحله 4: هندسه
                     [
                         {
                             "text": "مجموع زوایای داخلی یک مثلث چند درجه است؟",
@@ -173,7 +161,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 5: توان و جذر
                     [
                         {
                             "text": "حاصل 2^3 برابر با:",
@@ -194,7 +181,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 6: درصد و نسبت
                     [
                         {
                             "text": "۲۰ درصد از ۸۰ برابر است با:",
@@ -215,7 +201,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 7: دستگاه معادلات
                     [
                         {
                             "text": "دستگاه x+y=5 و x-y=1 را حل کنید. x=؟",
@@ -236,7 +221,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 8: احتمال و آمار
                     [
                         {
                             "text": "در پرتاب یک تاس سالم، احتمال آمدن عدد زوج چقدر است؟",
@@ -257,7 +241,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 9: چندضلعی‌ها
                     [
                         {
                             "text": "چندضلعی با 5 ضلع چه نام دارد؟",
@@ -278,7 +261,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 10: عبارت‌های جبری
                     [
                         {
                             "text": "ساده شده عبارت 3a + 2b - a + 4b کدام است؟",
@@ -305,16 +287,13 @@ class Command(BaseCommand):
                         },
                     ],
                 ]
-                # بر اساس stage_index (که از 0 شروع می‌شود) سوالات را برمی‌گردانیم
                 if stage_index < len(math_questions):
                     return math_questions[stage_index]
                 else:
-                    return []  # fallback
+                    return []
 
             elif subject_name == "eng":
-                # سوالات زبان انگلیسی (هر مرحله ۳ سوال)
                 eng_questions = [
-                    # مرحله 1: Present Simple
                     [
                         {
                             "text": "She _____ to school every day.",
@@ -335,7 +314,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 2: Past Simple
                     [
                         {
                             "text": "I _____ to the cinema yesterday.",
@@ -356,7 +334,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 3: ضمایر فاعلی و مفعولی
                     [
                         {
                             "text": "_____ am a student.",
@@ -377,7 +354,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 4: صفات ملکی
                     [
                         {
                             "text": "This is _____ book. (من)",
@@ -398,7 +374,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 5: حرف تعریف
                     [
                         {
                             "text": "I have _____ apple.",
@@ -419,7 +394,6 @@ class Command(BaseCommand):
                             "correct": 2,
                         },
                     ],
-                    # مرحله 6: جمع بستن اسم‌ها
                     [
                         {
                             "text": "One child → two _____",
@@ -440,7 +414,6 @@ class Command(BaseCommand):
                             "correct": 1,
                         },
                     ],
-                    # مرحله 7: قیدهای تکرار
                     [
                         {
                             "text": "He _____ eats breakfast. (معمولاً)",
@@ -461,7 +434,6 @@ class Command(BaseCommand):
                             "correct": 2,
                         },
                     ],
-                    # مرحله 8: سوالات Wh-
                     [
                         {
                             "text": "_____ is your name?",
@@ -482,7 +454,6 @@ class Command(BaseCommand):
                             "correct": 2,
                         },
                     ],
-                    # مرحله 9: حروف اضافه مکان
                     [
                         {
                             "text": "The cat is _____ the table. (زیر)",
@@ -503,7 +474,6 @@ class Command(BaseCommand):
                             "correct": 0,
                         },
                     ],
-                    # مرحله 10: صفت‌های تفضیلی
                     [
                         {
                             "text": "This is _____ than that. (بزرگتر)",
@@ -531,10 +501,8 @@ class Command(BaseCommand):
                     return []
             return []
 
-        # مقادیر xp_reward (مثلاً بین 10 تا 50)
         xp_list = [10, 15, 20, 25, 30, 35, 40, 45, 50, 60]
 
-        # ایجاد مراحل و سوالات برای ریاضی
         for idx, stage_info in enumerate(math_stages_data):
             order = idx + 1
             stage = LessonStage.objects.create(
@@ -546,7 +514,6 @@ class Command(BaseCommand):
                 xp_reward=xp_list[idx] if idx < len(xp_list) else 20,
                 is_active=True,
             )
-            # دریافت سوالات این مرحله
             q_list = create_questions_for_stage(stage, idx, "math")
             for q_order, q_data in enumerate(q_list, start=1):
                 question = Question.objects.create(
@@ -555,7 +522,6 @@ class Command(BaseCommand):
                     type=q_data["type"],
                     order=q_order,
                 )
-                # ایجاد گزینه‌ها
                 choices_text = q_data["choices"]
                 correct_index = q_data["correct"]
                 for ch_idx, ch_text in enumerate(choices_text):
@@ -568,7 +534,6 @@ class Command(BaseCommand):
                 f"مرحله {order}: {stage.title} (ریاضی) با {q_list.__len__()} سوال ساخته شد."
             )
 
-        # ایجاد مراحل و سوالات برای زبان انگلیسی
         for idx, stage_info in enumerate(eng_stages_data):
             order = idx + 1
             stage = LessonStage.objects.create(

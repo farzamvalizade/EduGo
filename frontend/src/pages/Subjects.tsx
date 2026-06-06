@@ -1,41 +1,24 @@
 import { useState, useEffect } from "react";
-
 import Navbar from "@/components/Navbar";
 import SubjectCard from "@/components/SubjectCard";
-
 import { IncompleteLessons, SubjectList } from "@/services/api/api";
 import type { IncompleteLesson, Subject } from "@/types/types";
-
 import { HashLoader } from "react-spinners";
 
 const Subjects = () => {
   const [loading, setLoading] = useState(true);
-
-  const [startedSubjects, setStartedSubjects] = useState<IncompleteLesson[]>([
-    { lesson_id: 0, title: "", completedStage: 0, totalStage: 0 },
-  ]);
-
-  const [subjects, setSubjects] = useState<Subject[]>([
-    {
-      id: 1,
-      title: "",
-      stages_count: 0,
-      description: "",
-      image: "",
-      is_active: true,
-      created_at: "",
-    },
-  ]);
+  const [startedLessons, setStartedLessons] = useState<IncompleteLesson[]>([]);
+  const [allSubjects, setAllSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     const fetchIncompleteLessons = async () => {
-      const fetchIncompleteLessons = await IncompleteLessons();
-      setStartedSubjects(fetchIncompleteLessons.data as IncompleteLesson[]);
+      const response = await IncompleteLessons();
+      setStartedLessons(response.data as IncompleteLesson[]);
     };
 
     const fetchSubjects = async () => {
-      const fetchSubjects = await SubjectList();
-      setSubjects(fetchSubjects.data as Subject[]);
+      const response = await SubjectList();
+      setAllSubjects(response.data as Subject[]);
     };
 
     const loadData = async () => {
@@ -52,15 +35,10 @@ const Subjects = () => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    if (!startedSubjects.length || !subjects.length) return;
-
-    const startedIds = new Set(startedSubjects.map((s) => s.lesson_id));
-
-    setSubjects((prev) =>
-      prev.filter((subject) => !startedIds.has(subject.id)),
-    );
-  }, [startedSubjects, subjects]);
+  const startedIds = new Set(startedLessons.map((lesson) => lesson.lesson_id));
+  const unstartedSubjects = allSubjects.filter(
+    (subject) => !startedIds.has(subject.id),
+  );
 
   if (loading) {
     return (
@@ -108,19 +86,18 @@ const Subjects = () => {
           </p>
         </div>
 
-        {startedSubjects.length > 0 && (
+        {startedLessons.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold mb-5">ادامه یادگیری</h2>
-
             <div className="grid gap-4">
-              {startedSubjects.map((subject) => (
+              {startedLessons.map((lesson) => (
                 <SubjectCard
-                  key={subject.lesson_id}
-                  subject={subject.title}
-                  completedStages={subject.completedStage}
-                  totalStages={subject.totalStage}
-                  icon={subject.image}
-                  continueUrl={`/subjects/${subject.id}`}
+                  key={lesson.lesson_id}
+                  subject={lesson.title}
+                  completedStages={lesson.completedStage}
+                  totalStages={lesson.totalStage}
+                  image={lesson.image}
+                  continueUrl={`/subjects/${lesson.lesson_id}`}
                   isStarted={true}
                 />
               ))}
@@ -131,15 +108,15 @@ const Subjects = () => {
         <div>
           <h2 className="text-2xl font-semibold mb-5">همه دروس</h2>
 
-          {subjects.length > 0 ? (
+          {unstartedSubjects.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {subjects.map((subject) => (
+              {unstartedSubjects.map((subject) => (
                 <SubjectCard
                   key={subject.id}
                   subject={subject.title}
                   completedStages={subject.stages_count}
                   totalStages={subject.stages_count}
-                  icon={subject.image}
+                  image={subject.image}
                   continueUrl={`/subjects/${subject.id}`}
                   isStarted={false}
                   isCompleted={false}
@@ -148,7 +125,7 @@ const Subjects = () => {
               ))}
             </div>
           ) : (
-            startedSubjects.length === 0 && (
+            startedLessons.length === 0 && (
               <div className="rounded-2xl bg-red-900/20 border border-red-800 p-5 text-center text-red-200">
                 درسی وجود ندارد!
               </div>

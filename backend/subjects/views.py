@@ -105,6 +105,7 @@ class IncompleteSubjectsView(APIView):
                         "title": s.title,
                         "completedStage": completed,
                         "totalStage": total,
+                        "image": request.build_absolute_uri(s.image.url),
                     }
                 )
 

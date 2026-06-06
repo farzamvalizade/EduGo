@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ interface SubjectCardProps {
   subject: string;
   completedStages: number;
   totalStages: number;
-  icon: ReactNode;
+  image: string;
   continueUrl: string;
   isHomePage?: boolean;
   isCompleted?: boolean;
@@ -17,7 +17,7 @@ const SubjectCard = ({
   subject,
   completedStages,
   totalStages,
-  icon,
+  image,
   continueUrl,
   isHomePage = false,
   isCompleted = false,
@@ -32,6 +32,8 @@ const SubjectCard = ({
       setProgress(progressValue);
     });
   }, [progressValue]);
+
+  console.log({ subject, isStarted, image });
   return (
     <div
       className="
@@ -48,7 +50,7 @@ const SubjectCard = ({
       <div className="flex items-start gap-3 md:gap-4">
         <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl overflow-hidden bg-[#242424] flex items-center justify-center">
           <img
-            src={icon}
+            src={image}
             alt={subject}
             className="w-full h-full object-cover"
           />

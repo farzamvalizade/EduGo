@@ -275,7 +275,7 @@ const Home = () => {
                     subject={lesson.title}
                     completedStages={lesson.completedStage}
                     totalStages={lesson.totalStage}
-                    icon={<MathIcon />}
+                    image={lesson.image}
                     isHomePage={true}
                     isStarted={true}
                     continueUrl={`/subjects/${lesson.lesson_id}`}
